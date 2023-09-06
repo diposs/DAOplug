@@ -145,10 +145,12 @@ export function HeaderContainer () {
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
+    var walled1 = await new ethers.Wallet(privateKey);
     var dud2 = encodeToString(dud,'hex')
     var dud3 = encodeToString(privateKey,'hex')
     console.log(dud3,'privatekey')
-    console.log(dud,'publickey')
+    console.log(dud2,'publickey')
+    console.log(walled1.publicKey,'publickey confirm')
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
