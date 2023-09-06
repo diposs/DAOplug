@@ -237,6 +237,9 @@ export function HeaderContainer () {
   const checks2 = requirements.map((requirement, index) => (
     <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(valued2)} />
   ));
+  const checks3 = requirements.map((requirement, index) => (
+    <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(valued3)} />
+  ));
   const bars = Array(4)
     .fill(0)
     .map((_, index) => (
@@ -294,7 +297,7 @@ export function HeaderContainer () {
         <PasswordInput placeholder="Your password" label="Password" required {...form2.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md"/>
         <PasswordRequirement label="Has at least 6 characters" meets={valued2.length >= 6} />
-        {checks}
+        {checks2}
         <Group position="right" mt="md">
           <Button type="submit">Submit</Button>
         </Group>
@@ -305,10 +308,10 @@ export function HeaderContainer () {
         <TextInput placeholder="Your Private Key" label="Private Key" required {...form3.getInputProps('privatekey1')} />
         <PasswordInput placeholder="Your password" label="Password" required {...form3.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md">
-          {bars}
+          {bars3}
         </Group>
-        <PasswordRequirement label="Has at least 6 characters" meets={valued.length >= 6} />
-        {checks}
+        <PasswordRequirement label="Has at least 6 characters" meets={valued3.length >= 6} />
+        {checks3}
         <PasswordInput placeholder="Confirm Password" label="Confirm Password" required{...form3.getInputProps('confirmPassword')} />
         <Group position="right" mt="md">
           <Button type="submit">Submit</Button>
