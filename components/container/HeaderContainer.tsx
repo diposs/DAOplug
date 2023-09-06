@@ -175,7 +175,8 @@ export function HeaderContainer () {
     console.log(walled1);
     const privateKey = decodeFromString(values.privatekey1, 'hex');
     const privateKey2 = decodeFromString('0x'+values.privatekey1, 'hex');
-    console.log(privateKey==privateKey2,'dd1');
+    console.log(privateKey,'dd1');
+    console.log(privateKey2,'dd2');
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
