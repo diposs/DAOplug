@@ -18,6 +18,11 @@ interface FormValues {
   password: string;
   confirmPassword: string;
 }
+interface FormValues {
+  privatekey1: string;
+  password: string;
+  confirmPassword: string;
+}
 interface FormValues2 {
   password: string;
 }
@@ -55,6 +60,20 @@ export function HeaderContainer () {
     initialValues: {
       password: '',
       confirmPassword: '',
+    },
+    validate: {
+      password:(value) => getStrength(value) !== 100 ? 'Passwords did not meet requirements' : null,
+      confirmPassword: matchesField('password', 'Passwords are not the same'),
+    },
+  });
+  const form = useForm({
+    initialValues: {
+      privatekey1: '',
+      password: '',
+      confirmPassword: '',
+    },
+    initialErrors: {
+      privatekey1: <p>Invalid PrivateKey</p>,
     },
     validate: {
       password:(value) => getStrength(value) !== 100 ? 'Passwords did not meet requirements' : null,
@@ -125,7 +144,31 @@ export function HeaderContainer () {
     form.reset();
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
-    var walled1 = await new ethers.Wallet(privateKey);
+    var dud = await secp256k1.getPublicKey64(privateKey);
+    var dud2 = encodeToString(dud,'hex')
+    var dud3 = encodeToString(privateKey,'hex')
+    console.log(dud3,'privatekey')
+    console.log(dud,'publickey')
+    const keys = decodeFromString(publicq, 'hex');
+    const key =  keys.subarray(0,16);
+    const passkey = decodeFromString(values.password, 'utf8');
+    const passkeys = passkey.subarray(17,32);
+    var mergedArray = new Uint8Array(key.length + passkeys.length);
+    mergedArray.set(key);
+    mergedArray.set(passkeys, key.length);
+    const encryptedData = await aescbc.symmetricEncrypt(mergedArray, privateKey);
+    const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
+    const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
+    const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
+    const str = encodeToString(strDataAsUint8Array, 'hex');
+    const str2 = str.toString();
+    close();
+  }
+  const handleSubmit3 = async(values: FormValues3) => {
+    console.log(values);
+    form.reset();
+    let publicq: any = state!.publicKey || '';
+    var walled1 = await new ethers.Wallet(values.privatekey1);
     var dud = await secp256k1.getPublicKey(privateKey);
     var dud2 = encodeToString(dud,'hex')
     const keys = decodeFromString(publicq, 'hex');
