@@ -18,7 +18,7 @@ interface FormValues {
   password: string;
   confirmPassword: string;
 }
-interface FormValues {
+interface FormValues3 {
   privatekey1: string;
   password: string;
   confirmPassword: string;
