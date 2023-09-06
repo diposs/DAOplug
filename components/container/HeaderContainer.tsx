@@ -84,9 +84,6 @@ export function HeaderContainer () {
     initialValues: {
       password: '',
     },
-    initialErrors: {
-      password: <p>Invalid Email/Password/PublicKey</p>,
-    },
   });
   
   const { classes } = useStyles();
