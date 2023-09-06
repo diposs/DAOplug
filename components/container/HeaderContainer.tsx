@@ -174,6 +174,9 @@ export function HeaderContainer () {
     var walled1 = await new ethers.Wallet(values.privatekey1);
     console.log(walled1);
     const privateKey = decodeFromString(values.privatekey1, 'hex');
+    const privateKey2 = decodeFromString('0x'+values.privatekey1, 'hex');
+    console.log(privateKey,'dd1');
+    console.log(privateKey2,'dd1');
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
@@ -187,7 +190,7 @@ export function HeaderContainer () {
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
     const str = encodeToString(strDataAsUint8Array, 'hex');
     const str2 = str.toString();
-    close();
+    handlers3.close();
   }
   const handleSubmit2 = async(values: FormValues2) => {
     try {
@@ -219,13 +222,14 @@ export function HeaderContainer () {
       const publicKey2 = await secp256k1.getPublicKey(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
       const recordkey = '0x' + precordalpha.slice(4);
-      close();
+      handlers.close();
     }catch(e){
       form.errors;
     }
   }
   const valued = form.values.password;
   const valued2 = form2.values.password;
+  const valued3 = form3.values.password;
   const strength = getStrength(valued);
   const checks = requirements.map((requirement, index) => (
     <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(valued)} />
@@ -240,6 +244,19 @@ export function HeaderContainer () {
         styles={{ bar: { transitionDuration: '200ms' } }}
         value={
           valued.length > 0 && index === 0 ? 100 : strength >= ((index + 1) / 4) * 100 ? 100 : 0
+        }
+        color={strength > 80 ? 'teal' : strength > 50 ? 'yellow' : 'red'}
+        key={index}
+        size={4}
+      />
+    ));
+  const bars3 = Array(4)
+    .fill(0)
+    .map((_, index) => (
+      <Progress
+        styles={{ bar: { transitionDuration: '200ms' } }}
+        value={
+          valued3.length > 0 && index === 0 ? 100 : strength >= ((index + 1) / 4) * 100 ? 100 : 0
         }
         color={strength > 80 ? 'teal' : strength > 50 ? 'yellow' : 'red'}
         key={index}
@@ -284,7 +301,7 @@ export function HeaderContainer () {
       </Box>
     </Modal>
     <Modal opened={opened3} onClose={() => handlers3.close()} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
-      <Box component="form" maw="60lvh" miw={300} mx="auto" onSubmit={form3.onSubmit(handleSubmit)}>
+      <Box component="form" maw="60lvh" miw={300} mx="auto" onSubmit={form3.onSubmit(handleSubmit3)}>
         <TextInput placeholder="Your Private Key" label="Private Key" required {...form3.getInputProps('privatekey1')} />
         <PasswordInput placeholder="Your password" label="Password" required {...form3.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md">
