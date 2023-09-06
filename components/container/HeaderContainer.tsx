@@ -115,7 +115,7 @@ export function HeaderContainer () {
     const exists = userData.exists();
     if(exists == false){
       if(res!.type =='email'){
-        handlers3.open();//open();
+        handlers.open();//open();
       } else{
         await polybase.collection('User').create([publicKeys]);
         var keys = decodeFromString(publicKeys, 'hex');
@@ -141,17 +141,11 @@ export function HeaderContainer () {
     updatepKey(null);
   }
   const handleSubmit = async(values: FormValues) => {
-    console.log(values);
     form.reset();
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
-    var walled1 = await new ethers.Wallet(privateKey);
     var dud2 = encodeToString(dud,'hex')
-    var dud3 = encodeToString(privateKey,'hex')
-    console.log(dud3,'privatekey')
-    console.log(dud2,'publickey')
-    console.log(walled1.publicKey,'publickey confirm')
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
@@ -168,14 +162,11 @@ export function HeaderContainer () {
     close();
   }
   const handleSubmit3 = async(values: FormValues3) => {
-    console.log(values);
     form3.reset();
     let publicq: any = state!.publicKey || '';
-    var walled1 = await new ethers.Wallet('0x'+values.privatekey1);
+    var walled1 = await new ethers.Wallet(values.privatekey1);
     console.log(walled1);
     const privateKey = decodeFromString(values.privatekey1, 'hex');
-    const privateKey2 = decodeFromString('0x'+values.privatekey1, 'hex');
-    console.log(JSON.stringify(privateKey) == JSON.stringify(privateKey2),'dd1');
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
@@ -193,7 +184,6 @@ export function HeaderContainer () {
   }
   const handleSubmit2 = async(values: FormValues2) => {
     try {
-      console.log(values);
       form2.reset();
       let publicq: any = state!.publicKey || '';
       const decryptedValue = decodeFromString(pvkeyst,  'hex');
@@ -223,7 +213,8 @@ export function HeaderContainer () {
       const recordkey = '0x' + precordalpha.slice(4);
       handlers.close();
     }catch(e){
-      form.errors;
+      form2.setErrors({ password: <p>Invalid Email/Password/PublicKey</p>, });
+      form2.errors;
     }
   }
   const valued = form.values.password;
