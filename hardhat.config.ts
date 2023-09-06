@@ -8,12 +8,12 @@ const config: HardhatUserConfig = {
     Mainnet: {
       url:"https://filfox.info/rpc/v1",
       chainId: 314,
-      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY as string|''],
     },
     calibration: {
       url:"https://calibration.filfox.info/rpc/v1",
       chainId: 314159,
-      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY as string|''],
     },
   },
 };
