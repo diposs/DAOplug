@@ -93,6 +93,7 @@ export function HeaderContainer () {
   const { auth, state } = useAuth();
   const [opened, { open, close }] = useDisclosure(false);
   const [opened2, handlers] = useDisclosure(false);
+  const [opened3, handlers3] = useDisclosure(false);
   const [openedburger, { toggle }] = useDisclosure(false);
   const [pvkeyst, setPvkeyst] = useState<string>('')
   const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey } = useBoundStore3();
@@ -114,7 +115,7 @@ export function HeaderContainer () {
     const exists = userData.exists();
     if(exists == false){
       if(res!.type =='email'){
-      open();
+        handlers3.open();//open();
       } else{
         await polybase.collection('User').create([publicKeys]);
         var keys = decodeFromString(publicKeys, 'hex');
@@ -123,8 +124,8 @@ export function HeaderContainer () {
       }
     }else{
       if(res!.type =='email'){
-      setPvkeyst(userData.data.pvkeyst as string ||'');
-      handlers.open();
+        setPvkeyst(userData.data.pvkeyst as string ||'');
+        handlers.open();
      }else{
         updateinUser(publicKeys);
         var keys = decodeFromString(publicKeys, 'hex');
@@ -171,6 +172,7 @@ export function HeaderContainer () {
     form3.reset();
     let publicq: any = state!.publicKey || '';
     var walled1 = await new ethers.Wallet(values.privatekey1);
+    console.log(walled1);
     const privateKey = decodeFromString(values.privatekey1, 'hex');
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
@@ -258,40 +260,43 @@ export function HeaderContainer () {
     <Burger opened={openedburger} onClick={toggle} className={classes.nonMobile} />
     <Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
       <Box component="form" maw="60lvh" miw={300} mx="auto" onSubmit={form.onSubmit(handleSubmit)}>
-      <PasswordInput
-        placeholder="Your password"
-        label="Password"
-        required {...form.getInputProps('password')} />
+        <PasswordInput placeholder="Your password" label="Password" required {...form.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md">
-        {bars}
-      </Group>
-
-      <PasswordRequirement label="Has at least 6 characters" meets={valued.length >= 6} />
-      {checks}
-      <PasswordInput
-        placeholder="Confirm Password"
-        label="Confirm Password"
-        required{...form.getInputProps('confirmPassword')} />
-      <Group position="right" mt="md">
-        <Button type="submit">Submit</Button>
-      </Group>
-    </Box>
+          {bars}
+        </Group>
+        <PasswordRequirement label="Has at least 6 characters" meets={valued.length >= 6} />
+        {checks}
+        <PasswordInput placeholder="Confirm Password" label="Confirm Password" required{...form.getInputProps('confirmPassword')} />
+        <Group position="right" mt="md">
+          <Button type="submit">Submit</Button>
+        </Group>
+      </Box>
     </Modal>
     <Modal opened={opened2} onClose={() => handlers.close()} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
       <Box component="form" maw="60lvh" miw={300} mx="auto" onSubmit={form2.onSubmit(handleSubmit2)}>
-      <PasswordInput
-        placeholder="Your password"
-        label="Password"
-        required {...form2.getInputProps('password')} />
-      <Group spacing={5} grow mt="xs" mb="md"/>
-      <PasswordRequirement label="Has at least 6 characters" meets={valued2.length >= 6} />
-      {checks}
-
-      
-      <Group position="right" mt="md">
-        <Button type="submit">Submit</Button>
-      </Group>
-    </Box>
+        <PasswordInput placeholder="Your password" label="Password" required {...form2.getInputProps('password')} />
+        <Group spacing={5} grow mt="xs" mb="md"/>
+        <PasswordRequirement label="Has at least 6 characters" meets={valued2.length >= 6} />
+        {checks}
+        <Group position="right" mt="md">
+          <Button type="submit">Submit</Button>
+        </Group>
+      </Box>
+    </Modal>
+    <Modal opened={opened3} onClose={() => handlers3.close()} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
+      <Box component="form" maw="60lvh" miw={300} mx="auto" onSubmit={form3.onSubmit(handleSubmit)}>
+        <TextInput placeholder="Your Private Key" label="Private Key" required {...form3.getInputProps('privatekey1')} />
+        <PasswordInput placeholder="Your password" label="Password" required {...form3.getInputProps('password')} />
+        <Group spacing={5} grow mt="xs" mb="md">
+          {bars}
+        </Group>
+        <PasswordRequirement label="Has at least 6 characters" meets={valued.length >= 6} />
+        {checks}
+        <PasswordInput placeholder="Confirm Password" label="Confirm Password" required{...form3.getInputProps('confirmPassword')} />
+        <Group position="right" mt="md">
+          <Button type="submit">Submit</Button>
+        </Group>
+      </Box>
     </Modal>
     <Drawer opened={openedburger} onClose={toggle} classNames={{root: classes.nonMobile, content: classes.controldd,}} position="bottom" size='60dvh' title="  " withCloseButton={false}>
       {content}
