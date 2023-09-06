@@ -66,7 +66,7 @@ export function HeaderContainer () {
       confirmPassword: matchesField('password', 'Passwords are not the same'),
     },
   });
-  const form = useForm({
+  const form3 = useForm({
     initialValues: {
       privatekey1: '',
       password: '',
@@ -166,7 +166,7 @@ export function HeaderContainer () {
   }
   const handleSubmit3 = async(values: FormValues3) => {
     console.log(values);
-    form.reset();
+    form3.reset();
     let publicq: any = state!.publicKey || '';
     var walled1 = await new ethers.Wallet(values.privatekey1);
     var dud = await secp256k1.getPublicKey(privateKey);
