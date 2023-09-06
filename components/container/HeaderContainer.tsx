@@ -12,7 +12,7 @@ import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCb
 import { useBoundStore3} from '../../stores/datastate';
 //import { ethPersonalSign } from '@polybase/eth'
 //import { Polybase } from "@polybase/client"
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FormValues {
   password: string;
@@ -65,6 +65,9 @@ export function HeaderContainer () {
     initialValues: {
       password: '',
     },
+    initialErrors: {
+      password: <p>Invalid Email/Password/PublicKey</p>,
+    },
   });
   
   const { classes } = useStyles();
@@ -72,6 +75,7 @@ export function HeaderContainer () {
   const [opened, { open, close }] = useDisclosure(false);
   const [opened2, handlers] = useDisclosure(false);
   const [openedburger, { toggle }] = useDisclosure(false);
+  const [pvkeyst, setPvkeyst] = useState<string>('')
   const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey } = useBoundStore3();
   const [isLoggedIn] = useIsAuthenticated();
   const content = Array(12)
@@ -100,34 +104,13 @@ export function HeaderContainer () {
       }
     }else{
       if(res!.type =='email'){
-      /*const decryptedValue = decodeFromString(userData.data.pvkeyst,  'hex');
-      const str = encodeToString(decryptedValue, 'utf8');
-      const decryptedData = JSON.parse(str);
-      const keys = decodeFromString(publicKeys, 'hex');
-      const key =  keys.subarray(first,last);
-      var nonce = decryptedData.nonce;
-      var resultnonce = [];
-      var resultciphertext = [];
-      var ciphertext = decryptedData.ciphertext;
-      for(var i in nonce){
-        resultnonce.push(nonce[i]);
-      }
-      for(var i in ciphertext){
-        resultciphertext.push(ciphertext[i]);
-      }
-      const decryptedDataJson = {version: decryptedData.version, nonce: new Uint8Array(resultnonce), ciphertext: new Uint8Array(resultciphertext), };
-      const strData = await aescbc.symmetricDecrypt(key, decryptedDataJson);
-      const publicKey = await secp256k1.getPublicKey(strData);
-      const precordalpha = encodeToString(publicKey, 'hex');
-      const recordkey = '0x' + precordalpha.slice(4);
-      updatepRecord(recordkey);
-      updatepvKey(strData);
-      updatepKey(publicKey);*/
+      setPvkeyst(userData.data.pvkeyst as string ||'');
       handlers.open();
-     }
-      updateinUser(publicKeys);
-      var keys = decodeFromString(publicKeys, 'hex');
+     }else{
+        updateinUser(publicKeys);
+        var keys = decodeFromString(publicKeys, 'hex');
         updatepKey(keys);
+      }
     }
   };
   const signoutUser =  async() => {
@@ -140,15 +123,11 @@ export function HeaderContainer () {
   const handleSubmit = async(values: FormValues) => {
     console.log(values);
     form.reset();
-    console.log(values);
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var walled1 = await new ethers.Wallet(privateKey);
     var dud = await secp256k1.getPublicKey(privateKey);
     var dud2 = encodeToString(dud,'hex')
-    console.log('walled1publickey dud2',dud2);
-    console.log('privateKey dud2',privateKey);
-    console.log('walled1publickey',walled1.publicKey);
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
@@ -157,23 +136,29 @@ export function HeaderContainer () {
     mergedArray.set(key);
     mergedArray.set(passkeys, key.length);
     const encryptedData = await aescbc.symmetricEncrypt(mergedArray, privateKey);
-    console.log(encryptedData)
     const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
     const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
     const str = encodeToString(strDataAsUint8Array, 'hex');
     const str2 = str.toString();
-    const decryptedValue = decodeFromString(str2,  'hex');
+    close();
+  }
+  const handleSubmit2 = async(values: FormValues2) => {
+    try {
+      console.log(values);
+      form2.reset();
+      let publicq: any = state!.publicKey || '';
+      const decryptedValue = decodeFromString(pvkeyst,  'hex');
       const strdd = encodeToString(decryptedValue, 'utf8');
       const decryptedData = JSON.parse(strdd);
-    const key1s = decodeFromString(publicq, 'hex');
-    const key1 =  key1s.subarray(0,16);
-    const passkey1 = decodeFromString(values.password, 'utf8');
-    const passkeys1 = passkey1.subarray(17,32);
-    var mergedArray1 = new Uint8Array(key1.length + passkeys1.length);
-    mergedArray1.set(key1);
-    mergedArray1.set(passkeys1, key1.length);
-    var nonce = decryptedData.nonce;
+      const key1s = decodeFromString(publicq, 'hex');
+      const key1 =  key1s.subarray(0,16);
+      const passkey1 = decodeFromString(values.password, 'utf8');
+      const passkeys1 = passkey1.subarray(17,32);
+      var mergedArray1 = new Uint8Array(key1.length + passkeys1.length);
+      mergedArray1.set(key1);
+      mergedArray1.set(passkeys1, key1.length);
+      var nonce = decryptedData.nonce;
       var resultnonce = [];
       var resultciphertext = [];
       var ciphertext = decryptedData.ciphertext;
@@ -187,42 +172,20 @@ export function HeaderContainer () {
       const strData = await aescbc.symmetricDecrypt(mergedArray1, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
-    console.log(precordalpha, 'depcrtpublickey')
-    console.log(strData, 'depcrtprivatekey')
       const recordkey = '0x' + precordalpha.slice(4);
-    close();
-  }
-  const handleSubmit2 = async(values: FormValues2) => {
-    console.log(values);
-    form2.reset();
-    console.log(values);
-    let publicq: any = state!.publicKey || '';
-    const privateKey = await secp256k1.generatePrivateKey();
-    var walled1 = await new ethers.Wallet(privateKey);
-    var dud = await secp256k1.getPublicKey(privateKey);
-    var dud2 = encodeToString(dud,'hex')
-    console.log('walled1publickey dud2',dud2);
-    console.log('privateKey dud2',privateKey);
-    console.log('walled1publickey',walled1.publicKey);
-    const keys = decodeFromString(publicq, 'hex');
-    const key =  keys.subarray(0,16);
-    const passkey = decodeFromString(values.password, 'utf8');
-    const passkeys = passkey.subarray(17,32);
-    var mergedArray = new Uint8Array(key.length + passkeys.length);
-    mergedArray.set(key);
-    mergedArray.set(passkeys, key.length);
-    const encryptedData = await aescbc.symmetricEncrypt(mergedArray, privateKey);
-    const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
-    const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
-    const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
-    const str = encodeToString(strDataAsUint8Array, 'hex');
-    const str2 = str.toString();
-    close();
+      close();
+    }catch(e){
+      form.errors;
+    }
   }
   const valued = form.values.password;
+  const valued2 = form2.values.password;
   const strength = getStrength(valued);
   const checks = requirements.map((requirement, index) => (
     <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(valued)} />
+  ));
+  const checks2 = requirements.map((requirement, index) => (
+    <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(valued2)} />
   ));
   const bars = Array(4)
     .fill(0)
@@ -241,7 +204,6 @@ export function HeaderContainer () {
     auth!.onAuthUpdate((authState) => {
       if (authState!) {
         updateinUser(authState.publicKey!.toString());
-        console.log(authState,'hhlp');
       }
     })
   },[auth,updateinUser])
@@ -260,7 +222,7 @@ export function HeaderContainer () {
         {bars}
       </Group>
 
-      <PasswordRequirement label="Has at least 6 characters" meets={valued.length > 5} />
+      <PasswordRequirement label="Has at least 6 characters" meets={valued.length >= 6} />
       {checks}
       <PasswordInput
         placeholder="Confirm Password"
@@ -277,9 +239,9 @@ export function HeaderContainer () {
         placeholder="Your password"
         label="Password"
         required {...form2.getInputProps('password')} />
-        <Group spacing={5} grow mt="xs" mb="md">
-        {bars}
-      </Group>
+      <Group spacing={5} grow mt="xs" mb="md"/>
+      <PasswordRequirement label="Has at least 6 characters" meets={valued2.length >= 6} />
+      {checks}
 
       
       <Group position="right" mt="md">
