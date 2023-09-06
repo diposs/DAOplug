@@ -230,6 +230,7 @@ export function HeaderContainer () {
   const valued2 = form2.values.password;
   const valued3 = form3.values.password;
   const strength = getStrength(valued);
+  const strength3 = getStrength(valued3);
   const checks = requirements.map((requirement, index) => (
     <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(valued)} />
   ));
@@ -258,9 +259,9 @@ export function HeaderContainer () {
       <Progress
         styles={{ bar: { transitionDuration: '200ms' } }}
         value={
-          valued3.length > 0 && index === 0 ? 100 : strength >= ((index + 1) / 4) * 100 ? 100 : 0
+          valued3.length > 0 && index === 0 ? 100 : strength3 >= ((index + 1) / 4) * 100 ? 100 : 0
         }
-        color={strength > 80 ? 'teal' : strength > 50 ? 'yellow' : 'red'}
+        color={strength3 > 80 ? 'teal' : strength3 > 50 ? 'yellow' : 'red'}
         key={index}
         size={4}
       />
