@@ -169,7 +169,7 @@ export function HeaderContainer () {
     form3.reset();
     let publicq: any = state!.publicKey || '';
     var walled1 = await new ethers.Wallet(values.privatekey1);
-    const privateKey = decodeFromString(values.privatekey1, 'hex'))
+    const privateKey = decodeFromString(values.privatekey1, 'hex');
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
