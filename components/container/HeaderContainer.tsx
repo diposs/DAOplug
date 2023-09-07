@@ -235,9 +235,10 @@ export function HeaderContainer () {
       const precordalpha = encodeToString(publicKey2, 'hex');
       var walled1 = await new ethers.Wallet(strData);
       console.log(walled1.address.toString())
-      if(addressed.includes(walled1.address.toString())) throw 'Error';
+      if(!addressed.includes(walled1.address.toString())) throw 'Error';
       handlers.close();
     }catch(e){
+      console.log('Error log',e);
       form2.setErrors({ password: <p>Invalid Email/Password/PublicKey</p>, });
       form2.errors;
     }
