@@ -199,11 +199,13 @@ export function HeaderContainer () {
       const decryptedData = JSON.parse(strdd);
       const key1s = decodeFromString(publicq, 'hex');
       const key1 =  key1s.subarray(0,16);
-      const passkey1 = decodeFromString('1', 'utf8');
+      console.log(values.password)
+      const passkey1 = decodeFromString(values.password, 'utf8');
       const passkeys1 = passkey1.subarray(17,32);
       var mergedArray1 = new Uint8Array(key1.length + passkeys1.length);
       mergedArray1.set(key1);
       mergedArray1.set(passkeys1, key1.length);
+      console.log(mergedArray1);
       var nonce = decryptedData.nonce;
       var resultnonce = [];
       var resultciphertext = [];
