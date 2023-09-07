@@ -232,7 +232,7 @@ export function HeaderContainer () {
       const decryptedDataJson = {version: decryptedData.version, nonce: new Uint8Array(resultnonce), ciphertext: new Uint8Array(resultciphertext), };
       const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey64(strData);
-      console.log(publicKey2,'publikc);
+      console.log(publicKey2,'publikc');
       const precordalpha = encodeToString(publicKey2, 'hex');
       var walled1 = await new ethers.Wallet(strData);
       console.log(walled1.address.toString())
