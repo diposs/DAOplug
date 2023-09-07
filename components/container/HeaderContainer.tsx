@@ -91,8 +91,7 @@ export function HeaderContainer () {
   const [opened3, handlers3] = useDisclosure(false);
   const [openedburger, { toggle }] = useDisclosure(false);
   const [pvkeyst, setPvkeyst] = useState<string>('')
-  const [addressed, setAddressed] = useState<string[]>([''])
-  const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey } = useBoundStore3();
+  const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey, addressed, setAddressed } = useBoundStore3();
   const [isLoggedIn] = useIsAuthenticated();
   const content = Array(12)
     .fill(0)
@@ -104,9 +103,11 @@ export function HeaderContainer () {
     updateinUser(null);
     updatepRecord(null);
     updatepKey(null);
+    setAddressed(['']);
     const res = await auth.signIn();
     console.log(res,'gg')
     let publicKeys: any  = res!.publicKey;
+    updateinUser(publicKeys);
     const userData = await polybase.collection('User').record(publicKeys).get();
     const exists = userData.exists();
     if(exists == false){
@@ -127,6 +128,7 @@ export function HeaderContainer () {
     updateinUser(null);
     updatepRecord(null);
     updatepKey(null);
+    setAddressed(['']);
   }
   const handleSubmit = async(values: FormValues) => {
     form.reset();
@@ -158,6 +160,10 @@ export function HeaderContainer () {
     const str2 = str.toString();
     const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, dud2.toString()]);
     console.log(userData314,'userData314');
+    updatepRecord(dud2);
+    updatepKey(dud);
+    updatepvKey(privateKey);
+    setAddressed(addman);
     close();
   }
   const handleSubmit3 = async(values: FormValues3) => {
@@ -191,6 +197,10 @@ export function HeaderContainer () {
       const str2 = str.toString();
       const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, recordkey]);
       console.log(userData314,'userData314');
+      updatepRecord(recordkey);
+      updatepKey(keys);
+      updatepvKey(privateKey);
+      setAddressed(addman);
       handlers3.close();
     }catch(e){
       console.log(e);
@@ -232,6 +242,9 @@ export function HeaderContainer () {
       const precordalpha = encodeToString(publicKey2, 'hex');
       var walled1 = await new ethers.Wallet(strData);
       if(!addressed.includes(walled1.address.toString())) throw 'Errored';
+      updatepRecord(precordalpha);
+      updatepKey(publicKey2);
+      updatepvKey(strData);
       handlers.close();
     }catch(e){
       console.log('Error log',e);
