@@ -201,7 +201,6 @@ export function HeaderContainer () {
   const handleSubmit2 = async(values: FormValues2) => {
     try {
       form2.reset();
-      console.log(addressed);
       let publicq: any = state!.publicKey || '';
       const decryptedValue = decodeFromString(pvkeyst,  'hex');
       const strdd = encodeToString(decryptedValue, 'utf8');
@@ -217,7 +216,6 @@ export function HeaderContainer () {
       var hashkun1 = hashkunkey.subarray(0,32);
       var newhashkunkey = new Uint8Array(hashkun1.length);
       newhashkunkey.set(hashkun1);
-      console.log(newhashkunkey);
       var nonce = decryptedData.nonce;
       var resultnonce = [];
       var resultciphertext = [];
@@ -231,7 +229,6 @@ export function HeaderContainer () {
       const decryptedDataJson = {version: decryptedData.version, nonce: new Uint8Array(resultnonce), ciphertext: new Uint8Array(resultciphertext), };
       const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey64(strData);
-      console.log(publicKey2,'publikc');
       const precordalpha = encodeToString(publicKey2, 'hex');
       var walled1 = await new ethers.Wallet(strData);
       if(!addressed.includes(walled1.address.toString())) throw 'Errored';
