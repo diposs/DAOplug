@@ -151,7 +151,11 @@ export function HeaderContainer () {
     var newhashkunkey = new Uint8Array(hashkun1.length);
     newhashkunkey.set(hashkun1);
     console.log(newhashkunkey);
+    console.log(privateKey)
     const encryptedData = await aescbc.symmetricEncrypt(newhashkunkey, privateKey);
+    cosole.log(encryptedData);
+    const dencryptedData = await aescbc.symmetricDecrypt(newhashkunkey, encryptedData);
+    cosole.log(dencryptedData);
     const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
     const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
@@ -185,7 +189,11 @@ export function HeaderContainer () {
       var newhashkunkey = new Uint8Array(hashkun1.length);
       newhashkunkey.set(hashkun1);
       console.log(newhashkunkey);
+      console.log(privateKey)
       const encryptedData = await aescbc.symmetricEncrypt(newhashkunkey, privateKey);
+      cosole.log(encryptedData);
+      const dencryptedData = await aescbc.symmetricDecrypt(newhashkunkey, encryptedData);
+      cosole.log(dencryptedData);
       const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
       const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
       const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
