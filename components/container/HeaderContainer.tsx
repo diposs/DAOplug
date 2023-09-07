@@ -150,12 +150,7 @@ export function HeaderContainer () {
     var hashkun1 = hashkunkey.subarray(0,32);
     var newhashkunkey = new Uint8Array(hashkun1.length);
     newhashkunkey.set(hashkun1);
-    console.log(newhashkunkey);
-    console.log(privateKey)
     const encryptedData = await aescbc.symmetricEncrypt(newhashkunkey, privateKey);
-    console.log(encryptedData);
-    const dencryptedData = await aescbc.symmetricDecrypt(newhashkunkey, encryptedData);
-    console.log(dencryptedData);
     const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
     const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
@@ -188,12 +183,7 @@ export function HeaderContainer () {
       var hashkun1 = hashkunkey.subarray(0,32);
       var newhashkunkey = new Uint8Array(hashkun1.length);
       newhashkunkey.set(hashkun1);
-      console.log(newhashkunkey);
-      console.log(privateKey)
       const encryptedData = await aescbc.symmetricEncrypt(newhashkunkey, privateKey);
-      console.log(encryptedData);
-      const dencryptedData = await aescbc.symmetricDecrypt(newhashkunkey, encryptedData);
-      console.log(dencryptedData);
       const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
       const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
       const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
@@ -204,7 +194,7 @@ export function HeaderContainer () {
       handlers3.close();
     }catch(e){
       console.log(e);
-      form3.setErrors({password: <p>Invalid PrivateKey</p>,});
+      form3.setErrors({privatekey1: <p>Invalid PrivateKey</p>,});
       form3.errors;
     }
   }
@@ -213,7 +203,7 @@ export function HeaderContainer () {
       form2.reset();
       console.log(addressed);
       let publicq: any = state!.publicKey || '';
-      const decryptedValue = decodeFromString('0x7b2276657273696f6e223a226165732d6362632d3235362f73796d6d6574726963222c226e6f6e6365223a7b2230223a3232322c2231223a3232382c2232223a35312c2233223a33392c2234223a36372c2235223a3233332c2236223a3139362c2237223a37322c2238223a3230342c2239223a3234342c223130223a3231312c223131223a32362c223132223a31382c223133223a3130312c223134223a39332c223135223a3138327d2c2263697068657274657874223a7b2230223a3235322c2231223a36392c2232223a3130392c2233223a3137362c2234223a352c2235223a37362c2236223a3132322c2237223a38392c2238223a3139312c2239223a35332c223130223a33392c223131223a3133392c223132223a3135322c223133223a38362c223134223a3133352c223135223a3131342c223136223a32312c223137223a3138322c223138223a3230332c223139223a3235352c223230223a3131302c223231223a3131352c223232223a3232342c223233223a32362c223234223a39322c223235223a3136362c223236223a39342c223237223a3232312c223238223a3133342c223239223a34372c223330223a3130362c223331223a36382c223332223a3131342c223333223a33342c223334223a3133312c223335223a3137362c223336223a3131342c223337223a36382c223338223a3235342c223339223a3231312c223430223a37372c223431223a37382c223432223a3133312c223433223a362c223434223a3132342c223435223a3132332c223436223a312c223437223a33397d7d',  'hex');
+      const decryptedValue = decodeFromString(pvkeyst,  'hex');
       const strdd = encodeToString(decryptedValue, 'utf8');
       const decryptedData = JSON.parse(strdd);
       const key1s = decodeFromString(publicq, 'hex');
@@ -239,14 +229,12 @@ export function HeaderContainer () {
         resultciphertext.push(ciphertext[i]);
       }
       const decryptedDataJson = {version: decryptedData.version, nonce: new Uint8Array(resultnonce), ciphertext: new Uint8Array(resultciphertext), };
-      console.log(decryptedDataJson,'publikcjson')
       const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
-      console.log(strData,'publikcstrData');
       const publicKey2 = await secp256k1.getPublicKey64(strData);
       console.log(publicKey2,'publikc');
       const precordalpha = encodeToString(publicKey2, 'hex');
       var walled1 = await new ethers.Wallet(strData);
-      console.log(walled1.address.toString())
+      if(!addressed.includes(walled1.address.toString())) throw 'Errored';
       handlers.close();
     }catch(e){
       console.log('Error log',e);
