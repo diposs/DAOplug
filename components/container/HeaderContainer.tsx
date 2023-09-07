@@ -147,7 +147,7 @@ export function HeaderContainer () {
     mergedArray.set(passkey, key.length);
     var hashkun = hashEthereumSignedMessage(mergedArray);
     var hashkunkey = decodeFromString(hashkun, 'hex');
-    var hashkun1 = hashkunkey.subarray(0,31);
+    var hashkun1 = hashkunkey.subarray(0,32);
     var newhashkunkey = new Uint8Array(hashkun1.length);
     newhashkunkey.set(hashkun1);
     console.log(newhashkunkey);
@@ -181,7 +181,7 @@ export function HeaderContainer () {
       mergedArray.set(passkey, key.length);
       var hashkun = hashEthereumSignedMessage(mergedArray);
       var hashkunkey = decodeFromString(hashkun, 'hex');
-      var hashkun1 = hashkunkey.subarray(0,31);
+      var hashkun1 = hashkunkey.subarray(0,32);
       var newhashkunkey = new Uint8Array(hashkun1.length);
       newhashkunkey.set(hashkun1);
       console.log(newhashkunkey);
@@ -215,7 +215,7 @@ export function HeaderContainer () {
       mergedArray1.set(passkey1, key1.length);
       var hashkun = hashEthereumSignedMessage(mergedArray1);
       var hashkunkey = decodeFromString(hashkun, 'hex');
-      var hashkun1 = hashkunkey.subarray(0,31);
+      var hashkun1 = hashkunkey.subarray(0,32);
       var newhashkunkey = new Uint8Array(hashkun1.length);
       newhashkunkey.set(hashkun1);
       console.log(newhashkunkey);
