@@ -164,10 +164,7 @@ export function HeaderContainer () {
       addman.push(walled1.address.toString());
       addman.push(filAddress.toString());
       const recordkey = '0x' + walled1.publicKey.slice(4);
-      if(recordkey != publicq){
-        throw error;
-        break;
-      }
+      if(recordkey != publicq) throw 'error';
       const privateKey = decodeFromString(values.privatekey1, 'hex');
       const keys = decodeFromString(publicq, 'hex');
       const key =  keys.subarray(0,16);
@@ -183,6 +180,7 @@ export function HeaderContainer () {
       const str = encodeToString(strDataAsUint8Array, 'hex');
       const str2 = str.toString();
       const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, recordkey]);
+      console.log(userData314,'userData314');
       handlers3.close();
     }catch(e){
       form3.setErrors({password: <p>Invalid PrivateKey</p>,});
