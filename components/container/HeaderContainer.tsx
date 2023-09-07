@@ -11,7 +11,7 @@ import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
 import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCbc256 } from '@polybase/util';
 import { useBoundStore3} from '../../stores/datastate';
 import { newDelegatedEthAddress } from '@glif/filecoin-address';
-//import { ethPersonalSign } from '@polybase/eth'
+import { hashEthereumSignedMessage  } from '@polybase/eth'
 //import { Polybase } from "@polybase/client"
 import { useEffect, useState } from 'react';
 
@@ -207,7 +207,6 @@ export function HeaderContainer () {
       console.log(keyed)
       const passkey1 = decodeFromString(values.password, 'utf8');
       console.log(passkey1);
-      const passkeys1 = passkey1.subarray(17,32);
       console.log(passkeys1);
       console.log(passkeys1.length);
       var mergedArray1 = new Uint8Array(key1.length + passkeys1.length);
@@ -215,6 +214,7 @@ export function HeaderContainer () {
       mergedArray1.set(key1);
       mergedArray1.set(passkeys1, key1.length);
       console.log(mergedArray1);
+      console.log(hashEthereumSignedMessage(mergedArray1))
       var nonce = decryptedData.nonce;
       var resultnonce = [];
       var resultciphertext = [];
