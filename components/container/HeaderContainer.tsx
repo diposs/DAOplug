@@ -211,7 +211,7 @@ export function HeaderContainer () {
       var mergedArray1 = new Uint8Array(key1.length + passkey1.length);
       console.log(mergedArray1);
       mergedArray1.set(key1);
-      mergedArray1.set(passkeys1, key1.length);
+      mergedArray1.set(passkey1, key1.length);
       console.log(mergedArray1);
       console.log(hashEthereumSignedMessage(mergedArray1))
       var nonce = decryptedData.nonce;
