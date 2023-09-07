@@ -230,7 +230,9 @@ export function HeaderContainer () {
         resultciphertext.push(ciphertext[i]);
       }
       const decryptedDataJson = {version: decryptedData.version, nonce: new Uint8Array(resultnonce), ciphertext: new Uint8Array(resultciphertext), };
+      console.log(decryptedDataJson,'publikcjson')
       const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
+      console.log(strData,'publikcstrData');
       const publicKey2 = await secp256k1.getPublicKey64(strData);
       console.log(publicKey2,'publikc');
       const precordalpha = encodeToString(publicKey2, 'hex');
