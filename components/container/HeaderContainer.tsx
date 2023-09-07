@@ -1,4 +1,4 @@
-import { Container, Modal, Button, Group, TextInput, Box , Burger, Drawer,Progress, PasswordInput, Text, Center } from '@mantine/core';
+eimport { Container, Modal, Button, Group, TextInput, Box , Burger, Drawer,Progress, PasswordInput, Text, Center } from '@mantine/core';
 import { useDisclosure  } from '@mantine/hooks';
 import  useStyles  from '../style/container.style'
 import { HeadGroup } from '../inputs/HeaderGroup';
@@ -73,9 +73,6 @@ export function HeaderContainer () {
       password: '',
       confirmPassword: '',
     },
-    initialErrors: {
-      privatekey1: <p>Invalid PrivateKey</p>,
-    },
     validate: {
       password:(value) => getStrength(value) !== 100 ? 'Passwords did not meet requirements' : null,
       confirmPassword: matchesField('password', 'Passwords are not the same'),
@@ -115,20 +112,11 @@ export function HeaderContainer () {
       if(res!.type =='email'){
         open();//handlers.open();//open();
       } else{
-        await polybase.collection('User').create([publicKeys]);
-        var keys = decodeFromString(publicKeys, 'hex');
-        updatepKey(keys);
-        updateinUser(publicKeys);
+        handlers3.open()
       }
     }else{
-      if(res!.type =='email'){
-        setPvkeyst(userData.data.pvkeyst as string ||'');
-        handlers.open();
-     }else{
-        updateinUser(publicKeys);
-        var keys = decodeFromString(publicKeys, 'hex');
-        updatepKey(keys);
-      }
+      setPvkeyst(userData.data.pvkeyst as string ||'');
+      handlers.open();
     }
   };
   const signoutUser =  async() => {
@@ -167,32 +155,44 @@ export function HeaderContainer () {
     close();
   }
   const handleSubmit3 = async(values: FormValues3) => {
-    form3.reset();
-    let publicq: any = state!.publicKey || '';
-    var walled1 = await new ethers.Wallet(values.privatekey1);
-    console.log(walled1);
-    const privateKey = decodeFromString(values.privatekey1, 'hex');
-    const keys = decodeFromString(publicq, 'hex');
-    const key =  keys.subarray(0,16);
-    const passkey = decodeFromString(values.password, 'utf8');
-    const passkeys = passkey.subarray(17,32);
-    var mergedArray = new Uint8Array(key.length + passkeys.length);
-    mergedArray.set(key);
-    mergedArray.set(passkeys, key.length);
-    const encryptedData = await aescbc.symmetricEncrypt(mergedArray, privateKey);
-    const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
-    const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
-    const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
-    const str = encodeToString(strDataAsUint8Array, 'hex');
-    const str2 = str.toString();
-    handlers3.close();
+    try {
+      form3.reset();
+      let publicq: any = state!.publicKey || '';
+      var walled1 = await new ethers.Wallet(values.privatekey1);
+      const filAddress = newDelegatedEthAddress(walled1.address || '');
+      let addman = []
+      addman.push(walled1.address.toString());
+      addman.push(filAddress.toString());
+      const recordkey = '0x' + walled1.publicKey.slice(4);
+      if(recordkey != publicq){
+        throw error;
+        break;
+      }
+      const privateKey = decodeFromString(values.privatekey1, 'hex');
+      const keys = decodeFromString(publicq, 'hex');
+      const key =  keys.subarray(0,16);
+      const passkey = decodeFromString(values.password, 'utf8');
+      const passkeys = passkey.subarray(17,32);
+      var mergedArray = new Uint8Array(key.length + passkeys.length);
+      mergedArray.set(key);
+      mergedArray.set(passkeys, key.length);
+      const encryptedData = await aescbc.symmetricEncrypt(mergedArray, privateKey);
+      const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
+      const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
+      const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
+      const str = encodeToString(strDataAsUint8Array, 'hex');
+      const str2 = str.toString();
+      const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, recordkey]);
+      handlers3.close();
+    }catch(e){
+      form3.setErrors({password: <p>Invalid PrivateKey</p>,});
+      form3.errors;
+    }
   }
   const handleSubmit2 = async(values: FormValues2) => {
     try {
       form2.reset();
       let publicq: any = state!.publicKey || '';
-      const filAddress = newDelegatedEthAddress(state!.userId || '');
-      console.log(filAddress.toString());
       const decryptedValue = decodeFromString(pvkeyst,  'hex');
       const strdd = encodeToString(decryptedValue, 'utf8');
       const decryptedData = JSON.parse(strdd);
@@ -215,9 +215,8 @@ export function HeaderContainer () {
       }
       const decryptedDataJson = {version: decryptedData.version, nonce: new Uint8Array(resultnonce), ciphertext: new Uint8Array(resultciphertext), };
       const strData = await aescbc.symmetricDecrypt(mergedArray1, decryptedDataJson);
-      const publicKey2 = await secp256k1.getPublicKey(strData);
+      const publicKey2 = await secp256k1.getPublicKey64(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
-      const recordkey = '0x' + precordalpha.slice(4);
       handlers.close();
     }catch(e){
       form2.setErrors({ password: <p>Invalid Email/Password/PublicKey</p>, });
@@ -255,7 +254,7 @@ export function HeaderContainer () {
     .fill(0)
     .map((_, index) => (
       <Progress
-        styles={{ bar: { transitionDuration: '200ms' } }}
+        styles={{ bar: { transitionDuration: '700ms' } }}
         value={
           valued3.length > 0 && index === 0 ? 100 : strength3 >= ((index + 1) / 4) * 100 ? 100 : 0
         }
