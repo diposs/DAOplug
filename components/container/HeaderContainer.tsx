@@ -142,14 +142,16 @@ export function HeaderContainer () {
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
-    console.log(passkey);
-    const passkeys = passkey.subarray(17,32);
-    console.log(passkeys);
-    console.log(passkeys.length);
-    var mergedArray = new Uint8Array(key.length + passkeys.length);
+    var mergedArray = new Uint8Array(key.length + passkey.length);
     mergedArray.set(key);
-    mergedArray.set(passkeys, key.length);
-    const encryptedData = await aescbc.symmetricEncrypt(mergedArray, privateKey);
+    mergedArray.set(passkey, key.length);
+    var hashkun = hashEthereumSignedMessage(mergedArray);
+    var hashkunkey = decodeFromString(hashkun, 'hex');
+    var hashkun1 = hashkun.subarray(0,31);
+    var newhashkunkey = new Uint8Array(hashkun.length);
+    newhashkunkey.set(key);
+    console.log(newhashkunkey);
+    const encryptedData = await aescbc.symmetricEncrypt(newhashkunkey, privateKey);
     const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
     const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
@@ -174,10 +176,15 @@ export function HeaderContainer () {
       const keys = decodeFromString(publicq, 'hex');
       const key =  keys.subarray(0,16);
       const passkey = decodeFromString(values.password, 'utf8');
-      const passkeys = passkey.subarray(17,32);
-      var mergedArray = new Uint8Array(key.length + passkeys.length);
+      var mergedArray = new Uint8Array(key.length + passkey.length);
       mergedArray.set(key);
-      mergedArray.set(passkeys, key.length);
+      mergedArray.set(passkey, key.length);
+      var hashkun = hashEthereumSignedMessage(mergedArray);
+      var hashkunkey = decodeFromString(hashkun, 'hex');
+      var hashkun1 = hashkun.subarray(0,31);
+      var newhashkunkey = new Uint8Array(hashkun.length);
+      newhashkunkey.set(key);
+      console.log(newhashkunkey);
       const encryptedData = await aescbc.symmetricEncrypt(mergedArray, privateKey);
       const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
       const encryptedDataJsonstr = JSON.stringify(encryptedDataJson);
@@ -202,18 +209,16 @@ export function HeaderContainer () {
       const decryptedData = JSON.parse(strdd);
       const key1s = decodeFromString(publicq, 'hex');
       const key1 =  key1s.subarray(0,16);
-      const keyed = aescbc.generateSecretKey()
-      console.log(values.password)
-      console.log(keyed)
       const passkey1 = decodeFromString(values.password, 'utf8');
-      console.log(passkey1);
-      console.log(passkey1.length);
       var mergedArray1 = new Uint8Array(key1.length + passkey1.length);
-      console.log(mergedArray1);
       mergedArray1.set(key1);
       mergedArray1.set(passkey1, key1.length);
-      console.log(mergedArray1);
-      console.log(hashEthereumSignedMessage(mergedArray1))
+      var hashkun = hashEthereumSignedMessage(mergedArray1);
+      var hashkunkey = decodeFromString(hashkun, 'hex');
+      var hashkun1 = hashkun.subarray(0,31);
+      var newhashkunkey = new Uint8Array(hashkun.length);
+      newhashkunkey.set(key);
+      console.log(newhashkunkey);
       var nonce = decryptedData.nonce;
       var resultnonce = [];
       var resultciphertext = [];
@@ -225,7 +230,7 @@ export function HeaderContainer () {
         resultciphertext.push(ciphertext[i]);
       }
       const decryptedDataJson = {version: decryptedData.version, nonce: new Uint8Array(resultnonce), ciphertext: new Uint8Array(resultciphertext), };
-      const strData = await aescbc.symmetricDecrypt(mergedArray1, decryptedDataJson);
+      const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey64(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
       var walled1 = await new ethers.Wallet(strData);
