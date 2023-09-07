@@ -153,7 +153,7 @@ export function HeaderContainer () {
     console.log(newhashkunkey);
     console.log(privateKey)
     const encryptedData = await aescbc.symmetricEncrypt(newhashkunkey, privateKey);
-    cosole.log(encryptedData);
+    console.log(encryptedData);
     const dencryptedData = await aescbc.symmetricDecrypt(newhashkunkey, encryptedData);
     cosole.log(dencryptedData);
     const encryptedDataJson = {version: encryptedData.version, nonce: encryptedData.nonce, ciphertext: encryptedData.ciphertext, };
@@ -203,6 +203,7 @@ export function HeaderContainer () {
       console.log(userData314,'userData314');
       handlers3.close();
     }catch(e){
+      console.log(e);
       form3.setErrors({password: <p>Invalid PrivateKey</p>,});
       form3.errors;
     }
