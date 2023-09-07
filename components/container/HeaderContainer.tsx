@@ -10,6 +10,7 @@ import { GsButton, GsLogoutButton } from '../buttons/GSButton';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
 import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCbc256 } from '@polybase/util';
 import { useBoundStore3} from '../../stores/datastate';
+import { newDelegatedEthAddress } from '@glif/filecoin-address';
 //import { ethPersonalSign } from '@polybase/eth'
 //import { Polybase } from "@polybase/client"
 import { useEffect, useState } from 'react';
@@ -183,6 +184,8 @@ export function HeaderContainer () {
     try {
       form2.reset();
       let publicq: any = state!.publicKey || '';
+      const filAddress = newDelegatedEthAddress(state!.userId || '');
+      console.log(filAddress.toString());
       const decryptedValue = decodeFromString(pvkeyst,  'hex');
       const strdd = encodeToString(decryptedValue, 'utf8');
       const decryptedData = JSON.parse(strdd);
