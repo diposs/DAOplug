@@ -113,7 +113,7 @@ export function HeaderContainer () {
     const exists = userData.exists();
     if(exists == false){
       if(res!.type =='email'){
-        handlers.open();//open();
+        open();//handlers.open();//open();
       } else{
         await polybase.collection('User').create([publicKeys]);
         var keys = decodeFromString(publicKeys, 'hex');
@@ -143,6 +143,8 @@ export function HeaderContainer () {
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
+    const filAddress = newDelegatedEthAddress(state!.userId || '');
+    console.log(filAddress.toString());
     var dud2 = encodeToString(dud,'hex')
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
