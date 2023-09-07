@@ -143,8 +143,11 @@ export function HeaderContainer () {
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
-    const filAddress = newDelegatedEthAddress(state!.userId || '');
-    console.log(filAddress.toString());
+    var walled1 = await new ethers.Wallet(privateKey);
+    const filAddress = newDelegatedEthAddress(walled1.address || '');
+    let addman = []
+    addman.push(walled1.address.toString());
+    addman.push(filAddress.toString());
     var dud2 = encodeToString(dud,'hex')
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
@@ -159,6 +162,8 @@ export function HeaderContainer () {
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
     const str = encodeToString(strDataAsUint8Array, 'hex');
     const str2 = str.toString();
+    const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, dud2.toString()]);
+    console.log(userData314,'userData314');
     close();
   }
   const handleSubmit3 = async(values: FormValues3) => {
