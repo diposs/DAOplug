@@ -142,7 +142,10 @@ export function HeaderContainer () {
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
     const passkey = decodeFromString(values.password, 'utf8');
+    console.log(passkey);
     const passkeys = passkey.subarray(17,32);
+    console.log(passkeys);
+    console.log(passkeys.length);
     var mergedArray = new Uint8Array(key.length + passkeys.length);
     mergedArray.set(key);
     mergedArray.set(passkeys, key.length);
