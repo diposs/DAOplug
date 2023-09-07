@@ -91,6 +91,7 @@ export function HeaderContainer () {
   const [opened3, handlers3] = useDisclosure(false);
   const [openedburger, { toggle }] = useDisclosure(false);
   const [pvkeyst, setPvkeyst] = useState<string>('')
+  const [addressed, setAddressed] = useState<string[]>([''])
   const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey } = useBoundStore3();
   const [isLoggedIn] = useIsAuthenticated();
   const content = Array(12)
@@ -116,6 +117,7 @@ export function HeaderContainer () {
       }
     }else{
       setPvkeyst(userData.data.pvkeyst as string ||'');
+      setAddressed(userData.data.address as string[] ||['']);
       handlers.open();
     }
   };
@@ -190,6 +192,7 @@ export function HeaderContainer () {
   const handleSubmit2 = async(values: FormValues2) => {
     try {
       form2.reset();
+      console.log(addressed);
       let publicq: any = state!.publicKey || '';
       const decryptedValue = decodeFromString(pvkeyst,  'hex');
       const strdd = encodeToString(decryptedValue, 'utf8');
@@ -215,6 +218,8 @@ export function HeaderContainer () {
       const strData = await aescbc.symmetricDecrypt(mergedArray1, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey64(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
+      var walled1 = await new ethers.Wallet(strData);
+      if(!addressed.includes(walled1.address.toString()) throw 'Error';
       handlers.close();
     }catch(e){
       form2.setErrors({ password: <p>Invalid Email/Password/PublicKey</p>, });
