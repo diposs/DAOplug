@@ -202,7 +202,9 @@ export function HeaderContainer () {
       const decryptedData = JSON.parse(strdd);
       const key1s = decodeFromString(publicq, 'hex');
       const key1 =  key1s.subarray(0,16);
+      const keyed = aescbc.generateSecretKey()
       console.log(values.password)
+      console.log(keyed)
       const passkey1 = decodeFromString(values.password, 'utf8');
       console.log(passkey1);
       const passkeys1 = passkey1.subarray(17,32);
