@@ -99,6 +99,9 @@ export function HeaderContainer () {
   const polybase = usePolybase();
   
   const signInUser =  async() => {
+    if(openedburger == true){
+      toggle();
+    }
     updatepvKey(null);
     updateinUser(null);
     updatepRecord(null);
@@ -346,7 +349,7 @@ export function HeaderContainer () {
     </Modal>
     <Drawer opened={openedburger} onClose={toggle} classNames={{root: classes.nonMobile, content: classes.controldd,}} position="bottom" size='60dvh' title="  " withCloseButton={false}>
       {content}
-      {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={signoutUser} className={classes.nonMobile} />) : (<GsButton onClick={toggle() && signInUser()}className={classes.nonMobile} />)}
+      {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={signoutUser} className={classes.nonMobile} />) : (<GsButton onClick={signInUser}className={classes.nonMobile} />)}
     </Drawer>
   </Container>
   );
