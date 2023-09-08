@@ -4,7 +4,7 @@ import { Text, Group, Button, createStyles, rem } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
 import { IconCloudUpload, IconX, IconDownload } from '@tabler/icons-react';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
-import { useBoundStore3} from '../../stores/datastate';
+import { useBoundStore3} from '../stores/datastate';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
