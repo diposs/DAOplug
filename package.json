@@ -61,7 +61,6 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "hardhat": "^2.17.2",
-    "ts-node": "^10.9.1"
+    "hardhat": "^2.17.2"
   }
 }
