@@ -163,7 +163,6 @@ export function HeaderContainer () {
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
     const str = encodeToString(strDataAsUint8Array, 'hex');
     const str2 = str.toString();
-    var ppkey = encodeToString(privateKey,'hex');
     const getApiKey = async() =>{
       const verificationMessage = (
         await axios.get(
@@ -177,6 +176,8 @@ export function HeaderContainer () {
       return(litt);
     }
     var lighthousekey :any = await getApiKey();
+    const uploads = await lighthouse.getUploads(walled1.address);
+    console.log(uploads);
     const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, dud2.toString()]);
     console.log(userData314,'userData314');
     updatepRecord(dud2);
@@ -214,7 +215,22 @@ export function HeaderContainer () {
       const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
       const str = encodeToString(strDataAsUint8Array, 'hex');
       const str2 = str.toString();
-      const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, recordkey]);
+      const getApiKey = async() =>{
+        const verificationMessage = (
+          await axios.get(
+              `https://api.lighthouse.storage/api/auth/get_message?publicKey=${walled1.address}`
+          )
+        ).data
+        const signedMessage = await walled1.signMessage(verificationMessage);
+        const response = await lighthouse.getApiKey(walled1.address, signedMessage);;
+        console.log(response.data.apiKey);
+        let litt: any = response!.data.apiKey || null;
+        return(litt);
+      }
+      var lighthousekey :any = await getApiKey();
+      const uploads = await lighthouse.getUploads(walled1.address);
+      console.log(uploads);
+      const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, recordkey]);
       console.log(userData314,'userData314');
       updatepRecord(recordkey);
       updatepKey(keys);
