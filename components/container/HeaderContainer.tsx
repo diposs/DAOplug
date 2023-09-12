@@ -173,7 +173,7 @@ export function HeaderContainer () {
     const signedMessage = await walled1.signMessage(verificationMessage);
     const response = await lighthouse.getApiKey(walled1.address, signedMessage)
     console.log(response.data.apiKey)
-    var litt = response.data.apiKey | null;
+    var litt: any = response.data.apiKey | null;
     }
     await getApiKey();
     const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, litt, dud2.toString()]);
