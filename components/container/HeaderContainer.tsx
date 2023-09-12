@@ -95,9 +95,6 @@ export function HeaderContainer () {
   const [pvkeyst, setPvkeyst] = useState<string>('')
   const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey, addressed, setAddressed } = useBoundStore3();
   const [isLoggedIn] = useIsAuthenticated();
-  const content = Array(12)
-    .fill(0)
-    .map((_, index) => <p key={index}>Drawer with scroll</p>);
   const polybase = usePolybase();
   
   const signInUser =  async() => {
@@ -334,13 +331,6 @@ export function HeaderContainer () {
       }
     })
   },[auth,updateinUser])
-  useEffect(() => {
-      if (pvKey!= null) {
-        const content = Array(15)
-    .fill(0)
-    .map((_, index) => <p key={index}>I am a dreamer</p>);
-      }
-  },[pvKey])
   updatepvKey
   return (
   <Container className={classes.inner} fluid>
@@ -388,7 +378,7 @@ export function HeaderContainer () {
       </Box>
     </Modal>
     <Drawer opened={openedburger} onClose={toggle} classNames={{root: classes.nonMobile, content: classes.controldd,}} position="bottom" size='60dvh' title="  " withCloseButton={false}>
-      {content}
+      {Array(12).fill(0).map((_, index) => {return<p key={index}>Drawer with scroll</p>)};}
       {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={signoutUser} className={classes.nonMobile} />) : (<GsButton onClick={signInUser}className={classes.nonMobile} />)}
     </Drawer>
   </Container>
