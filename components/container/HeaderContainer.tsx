@@ -176,7 +176,7 @@ export function HeaderContainer () {
       return(litt);
     }
     var lighthousekey :any = await getApiKey();
-    const uploads = await lighthouse.getUploads(walled1.address);
+    const uploads = await lighthouse.getUploads(lighthousekey);
     console.log(uploads);
     const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, dud2.toString()]);
     console.log(userData314,'userData314');
@@ -228,7 +228,7 @@ export function HeaderContainer () {
         return(litt);
       }
       var lighthousekey :any = await getApiKey();
-      const uploads = await lighthouse.getUploads(walled1.address);
+      const uploads = await lighthouse.getUploads(lighthousekey);
       console.log(uploads);
       const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, recordkey]);
       console.log(userData314,'userData314');
