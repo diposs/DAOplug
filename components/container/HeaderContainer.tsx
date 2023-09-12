@@ -5,6 +5,8 @@ import { HeadGroup } from '../inputs/HeaderGroup';
 import { MenuGroup } from '../inputs/MenuGroup';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useForm, hasLength, matchesField  } from '@mantine/form';
+import lighthouse from '@lighthouse-web3/sdk';
+import axios from 'axios';
 import { ethers } from "ethers";
 import { GsButton, GsLogoutButton } from '../buttons/GSButton';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
@@ -161,6 +163,27 @@ export function HeaderContainer () {
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
     const str = encodeToString(strDataAsUint8Array, 'hex');
     const str2 = str.toString();
+    const signAuthMessage = async(privateKey, messageRequested) =>{
+      const signer = new ethers.Wallet(privateKey);
+      const signedMessage = await signer.signMessage(messageRequested);
+      return(signedMessage)
+    }
+    var ppkey = encodeToString(privateKey,'hex');
+    const getApiKey = async() =>{
+    const wallet = {
+      publicKey: dud2, //>> Example: '0xEaF4E24ffC1A2f53c07839a74966A6611b8Cb8A1'
+      privateKey: ppkey
+    }
+    const verificationMessage = (
+      await axios.get(
+          `https://api.lighthouse.storage/api/auth/get_message?publicKey=${wallet.publicKey}`
+      )
+    ).data
+    const signedMessage = await signAuthMessage(wallet.privateKey, verificationMessage)
+    const response = await lighthouse.getApiKey(wallet.publicKey, signedMessage)
+    console.log(response)
+    }
+    getApiKey();
     const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, dud2.toString()]);
     console.log(userData314,'userData314');
     updatepRecord(dud2);
