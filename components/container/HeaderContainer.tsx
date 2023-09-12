@@ -167,11 +167,11 @@ export function HeaderContainer () {
     const getApiKey = async() =>{
     const verificationMessage = (
       await axios.get(
-          `https://api.lighthouse.storage/api/auth/get_message?publicKey=${walled1.publicKey}`
+          `https://api.lighthouse.storage/api/auth/get_message?publicKey=${walled1.address}`
       )
     ).data
     const signedMessage = await walled1.signMessage(verificationMessage);
-    const response = await lighthouse.getApiKey(walled1.publicKey, signedMessage)
+    const response = await lighthouse.getApiKey(walled1.address, signedMessage)
     console.log(response)
     }
     getApiKey();
