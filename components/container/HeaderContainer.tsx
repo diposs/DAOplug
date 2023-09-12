@@ -171,11 +171,12 @@ export function HeaderContainer () {
       )
     ).data
     const signedMessage = await walled1.signMessage(verificationMessage);
-    const response = await lighthouse.getApiKey(walled1.address, signedMessage).data
-    console.log(response)
+    const response = await lighthouse.getApiKey(walled1.address, signedMessage)
+    console.log(response.data.apiKey)
+    var litt = response.data.apiKey | null;
     }
     await getApiKey();
-    const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, dud2.toString()]);
+    const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, litt, dud2.toString()]);
     console.log(userData314,'userData314');
     updatepRecord(dud2);
     updatepKey(dud);
