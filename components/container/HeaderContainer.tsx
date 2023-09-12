@@ -95,7 +95,7 @@ export function HeaderContainer () {
   const [pvkeyst, setPvkeyst] = useState<string>('')
   const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey, addressed, setAddressed } = useBoundStore3();
   const [isLoggedIn] = useIsAuthenticated();
-  var content = Array(12)
+  const content = Array(12)
     .fill(0)
     .map((_, index) => <p key={index}>Drawer with scroll</p>);
   const polybase = usePolybase();
@@ -336,7 +336,7 @@ export function HeaderContainer () {
   },[auth,updateinUser])
   useEffect(() => {
       if (pvKey!= null) {
-        var content = Array(15)
+        const content = Array(15)
     .fill(0)
     .map((_, index) => <p key={index}>I am a dreamer</p>);
       }
