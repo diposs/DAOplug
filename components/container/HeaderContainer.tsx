@@ -378,7 +378,7 @@ export function HeaderContainer () {
       </Box>
     </Modal>
     <Drawer opened={openedburger} onClose={toggle} classNames={{root: classes.nonMobile, content: classes.controldd,}} position="bottom" size='60dvh' title="  " withCloseButton={false}>
-      {Array(12).fill(0).map((_, index) => {return<p key={index}>Drawer with scroll</p>)};}
+      {Array(12).fill(0).map((_, index) => {return <p key={index}>Drawer with scroll</p>;})}
       {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={signoutUser} className={classes.nonMobile} />) : (<GsButton onClick={signInUser}className={classes.nonMobile} />)}
     </Drawer>
   </Container>
