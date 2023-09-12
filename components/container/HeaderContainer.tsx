@@ -163,23 +163,17 @@ export function HeaderContainer () {
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
     const str = encodeToString(strDataAsUint8Array, 'hex');
     const str2 = str.toString();
-    const signAuthMessage = async({privateKey, messageRequested}:{ privateKey?:string, messageRequested?:string}) =>{
-      const signer = new ethers.Wallet(privateKey);
-      const signedMessage = await signer.signMessage(messageRequested);
-      return(signedMessage)
-    }
     var ppkey = encodeToString(privateKey,'hex');
     const getApiKey = async() =>{
     const wallet = {
-      publicKey: dud2, //>> Example: '0xEaF4E24ffC1A2f53c07839a74966A6611b8Cb8A1'
-      privateKey: ppkey
+      publicKey: dud2
     }
     const verificationMessage = (
       await axios.get(
           `https://api.lighthouse.storage/api/auth/get_message?publicKey=${wallet.publicKey}`
       )
     ).data
-    const signedMessage = await signAuthMessage(wallet.privateKey, verificationMessage)
+    const signedMessage = await walled1.signMessage(verificationMessage);
     const response = await lighthouse.getApiKey(wallet.publicKey, signedMessage)
     console.log(response)
     }
