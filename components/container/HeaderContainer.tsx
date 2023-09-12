@@ -171,7 +171,7 @@ export function HeaderContainer () {
       )
     ).data
     const signedMessage = await walled1.signMessage(verificationMessage);
-    const response = await lighthouse.getApiKey(wallet.publicKey, signedMessage)
+    const response = await lighthouse.getApiKey(walled1.publicKey, signedMessage)
     console.log(response)
     }
     getApiKey();
