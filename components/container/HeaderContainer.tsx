@@ -163,7 +163,7 @@ export function HeaderContainer () {
     const strDataAsUint8Array = decodeFromString(encryptedDataJsonstr, 'utf8');
     const str = encodeToString(strDataAsUint8Array, 'hex');
     const str2 = str.toString();
-    const signAuthMessage = async(privateKey, messageRequested) =>{
+    const signAuthMessage = async({privateKey, messageRequested}:{ privateKey:string, messageRequested:string}) =>{
       const signer = new ethers.Wallet(privateKey);
       const signedMessage = await signer.signMessage(messageRequested);
       return(signedMessage)
