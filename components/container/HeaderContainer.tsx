@@ -165,12 +165,9 @@ export function HeaderContainer () {
     const str2 = str.toString();
     var ppkey = encodeToString(privateKey,'hex');
     const getApiKey = async() =>{
-    const wallet = {
-      publicKey: dud2
-    }
     const verificationMessage = (
       await axios.get(
-          `https://api.lighthouse.storage/api/auth/get_message?publicKey=${wallet.publicKey}`
+          `https://api.lighthouse.storage/api/auth/get_message?publicKey=${walled1.publicKey}`
       )
     ).data
     const signedMessage = await walled1.signMessage(verificationMessage);
