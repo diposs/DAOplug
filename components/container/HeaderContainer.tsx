@@ -165,18 +165,19 @@ export function HeaderContainer () {
     const str2 = str.toString();
     var ppkey = encodeToString(privateKey,'hex');
     const getApiKey = async() =>{
-    const verificationMessage = (
-      await axios.get(
-          `https://api.lighthouse.storage/api/auth/get_message?publicKey=${walled1.address}`
-      )
-    ).data
-    const signedMessage = await walled1.signMessage(verificationMessage);
-    const response = await lighthouse.getApiKey(walled1.address, signedMessage)
-    console.log(response.data.apiKey)
-    let litt: any = response!.data.apiKey || null;
+      const verificationMessage = (
+        await axios.get(
+            `https://api.lighthouse.storage/api/auth/get_message?publicKey=${walled1.address}`
+        )
+      ).data
+      const signedMessage = await walled1.signMessage(verificationMessage);
+      const response = await lighthouse.getApiKey(walled1.address, signedMessage);;
+      console.log(response.data.apiKey);
+      let litt: any = response!.data.apiKey || null;
+      return(litt);
     }
-    await getApiKey();
-    const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, litt, dud2.toString()]);
+    var lighthousekey :any = await getApiKey();
+    const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, dud2.toString()]);
     console.log(userData314,'userData314');
     updatepRecord(dud2);
     updatepKey(dud);
