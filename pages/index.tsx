@@ -40,8 +40,8 @@ export default function Home() {
   useEffect(() => {
     if (lighthouseapi != null) {
       const fetched = async () => {
-        const upload = lighthouse.getUploads(lighthouseapi)
-        var setter = JSON.stringify(upload?.data.fileList)
+        const upload = await lighthouse.getUploads(lighthouseapi)
+        var setter = JSON.stringify(upload.data.fileList)
         var dool =  [];
         dool.push(setter);
         setDataseter(dool);
