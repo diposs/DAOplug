@@ -45,16 +45,14 @@ export default function Home() {
         }
       fetched();
     }
-  },[lighthouseapi, pvkeystd])
-  useEffect(() => {
-      console.log(pvkeystd);
-  },)
+  },[lighthouseapi])
   return (
     <>
       <FirstHeader/>
       {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (
       <>
       <div className={classes.wrapper}>
+        {pvkeystd}
       <Dropzone
         openRef={openRef}
         onDrop={() => {}}
