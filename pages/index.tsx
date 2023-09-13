@@ -35,18 +35,18 @@ export default function Home() {
   const { auth, state } = useAuth();
   const { inUser, pRecord, pKey, pvKey, lighthouseapi } = useBoundStore3();
   const { classes, theme } = useStyles();
-  const [pvkeyst, setPvkeyst] = useState<string | null>('');
+  const [pvkeystd, setPvkeystd] = useState <string>('');
   const openRef = useRef<() => void>(null);
   useEffect(() => {
     if (lighthouseapi != null) {
       const fetched = async () => {
         const upload = await lighthouse.getUploads(lighthouseapi)
         const setter = JSON.stringify(upload.data.fileList);
-        setPvkeyst(setter);
-        console.log(pvkeyst, 'dswww');
+        setPvkeyst(setter as string  || '[]');
+        console.log(pvkeystd, 'dswww');
         }
       fetched();
-      console.log(pvkeyst);
+      console.log(pvkeystd);
     }
   },[lighthouseapi])
   return (
