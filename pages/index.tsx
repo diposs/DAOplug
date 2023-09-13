@@ -39,6 +39,7 @@ export default function Home() {
     <>
       <FirstHeader/>
       {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (
+      <>
       <div className={classes.wrapper}>
       <Dropzone
         openRef={openRef}
@@ -315,6 +316,7 @@ export default function Home() {
         Select files
       </Button>
     </div>
+      </>
       ) : (
       <></>
     )}
