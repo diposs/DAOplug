@@ -35,7 +35,7 @@ export default function Home() {
   const { auth, state } = useAuth();
   const { inUser, pRecord, pKey, pvKey, lighthouseapi } = useBoundStore3();
   const { classes, theme } = useStyles();
-  const [pvkeyst, setPvkeyst] = useState<string | null>(null);
+  const [pvkeyst, setPvkeyst] = useState<string | null>('');
   const openRef = useRef<() => void>(null);
   useEffect(() => {
     if (lighthouseapi != null) {
