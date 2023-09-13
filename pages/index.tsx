@@ -47,7 +47,7 @@ export default function Home() {
       fetched();
       console.log(pvkeystd);
     }
-  },[lighthouseapi])
+  },[lighthouseapi, pvkeystd,setPvkeystd])
   return (
     <>
       <FirstHeader/>
