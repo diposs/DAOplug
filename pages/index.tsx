@@ -37,15 +37,13 @@ export default function Home() {
   const { classes, theme } = useStyles();
   const [dataseter, setDataseter] = useState<string[]>([])
   const openRef = useRef<() => void>(null);
-  useEffect(() => {
-    auth!.onAuthUpdate((authState) => {
+  useEffect(async() => {
       if (lighthouseapi != null) {
         const upload = await lighthouse.getUploads(lighthouseapi)
         var setter = JSON.stringify(upload!.data.fileList)
         setDataseter(setter);
         console.log(dataseter);
       }
-    })
   },[lighthouseapi])
   return (
     <>
