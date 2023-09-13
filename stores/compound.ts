@@ -8,6 +8,8 @@ export interface StoreInterface3 {
   pKey: Uint8Array | null | undefined
   pvKey: Uint8Array | null | undefined
   addressed: string[]
+  lighthouseapi: string | null
+  updateinUser: (lighthouseapi: string | null ) => void
   setAddressed: (addressed: string[]) => void
   updatepKey: (pKey: Uint8Array | null | undefined) => void
   updatepvKey: (pvKey: Uint8Array | null | undefined) => void
@@ -16,6 +18,8 @@ export interface StoreInterface3 {
 export const createcompound: StateCreator<StoreInterface3> = (set, get) => ({
     inUser: null,
     updateinUser: (inUser) => {set({inUser: inUser},)},
+    lighthouseapi: null,
+    updatelighthouseapi: (inUser) => {set({lighthouseapi: lighthouseapi},)},
     pRecord: null,
     updatepRecord: (pRecord) => {set({pRecord: pRecord},)},
     pKey: null,
