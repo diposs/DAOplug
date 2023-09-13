@@ -42,12 +42,13 @@ export default function Home() {
       const fetched = async () => {
         const upload = await lighthouse.getUploads(lighthouseapi)
         setPvkeystd(JSON.stringify(upload.data.fileList) as string  || '[]');
-        console.log(pvkeystd, 'dswww');
         }
       fetched();
-      console.log(pvkeystd);
     }
   },[lighthouseapi, pvkeystd])
+  useEffect(() => {
+      console.log(pvkeystd);
+  },)
   return (
     <>
       <FirstHeader/>
