@@ -40,7 +40,7 @@ export default function Home() {
   useEffect(() => {
       if (lighthouseapi != null) {
         const upload = lighthouse.getUploads(lighthouseapi)
-        var setter = JSON.stringify(upload!.data.fileList)
+        var setter = JSON.stringify(upload.!data.fileList)
         setDataseter(setter);
         console.log(dataseter);
       }
