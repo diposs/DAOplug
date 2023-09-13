@@ -171,7 +171,6 @@ export function HeaderContainer () {
       ).data
       const signedMessage = await walled1.signMessage(verificationMessage);
       const response = await lighthouse.getApiKey(walled1.address, signedMessage);;
-      console.log(response.data.apiKey);
       let litt: any = response!.data.apiKey || null;
       return(litt);
     }
@@ -222,13 +221,10 @@ export function HeaderContainer () {
         ).data
         const signedMessage = await walled1.signMessage(verificationMessage);
         const response = await lighthouse.getApiKey(walled1.address, signedMessage);;
-        console.log(response.data.apiKey);
         let litt: any = response!.data.apiKey || null;
         return(litt);
       }
       var lighthousekey :any = await getApiKey();
-      const uploads = await lighthouse.getUploads(lighthousekey);
-      console.log(uploads);
       const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, recordkey]);
       console.log(userData314,'userData314');
       updatepRecord(recordkey);
@@ -334,7 +330,6 @@ export function HeaderContainer () {
       }
     })
   },[auth,updateinUser])
-  updatepvKey
   return (
   <Container className={classes.inner} fluid>
     <HeadGroup/>
