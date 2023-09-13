@@ -17,7 +17,7 @@ import { useLobby, useAudio, useVideo, useRoom, usePeers} from '@huddle01/react/
     } = useVideo(); 
     const { joinRoom, leaveRoom } = useRoom();
  
-    const { peerId } = usePeers();
+    const { peerIds } = usePeers();
  
     useEffect(() => {
       // its preferable to use env vars to store projectId
