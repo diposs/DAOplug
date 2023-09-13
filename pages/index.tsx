@@ -35,15 +35,20 @@ export default function Home() {
   const { auth, state } = useAuth();
   const { inUser, pRecord, pKey, pvKey, lighthouseapi } = useBoundStore3();
   const { classes, theme } = useStyles();
-  const [dataseter, setDataseter] = useState<string[]>([])
+  const [dataseter, setDataseter] = useState<string[]|null>(null)
   const openRef = useRef<() => void>(null);
   useEffect(() => {
-      if (lighthouseapi != null) {
+    if (lighthouseapi != null) {
+      const fetched = async () => {
         const upload = lighthouse.getUploads(lighthouseapi)
-        var setter = JSON.stringify(upload.!data.fileList)
-        setDataseter(setter);
+        var setter = JSON.stringify(upload.data.fileList)
+        var dool =  [];
+        dool.push(setter);
+        setDataseter(dool);
         console.log(dataseter);
-      }
+        }
+      fetched();
+    }
   },[lighthouseapi])
   return (
     <>
