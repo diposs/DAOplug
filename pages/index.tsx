@@ -1,8 +1,9 @@
 import {FirstHeader} from '../components/header/header1';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Text, Group, Button, createStyles, rem } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
 import { IconCloudUpload, IconX, IconDownload } from '@tabler/icons-react';
+import lighthouse from '@lighthouse-web3/sdk';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
 import { useBoundStore3} from '../stores/datastate';
 
@@ -32,9 +33,20 @@ const useStyles = createStyles((theme) => ({
 export default function Home() {
   const [isLoggedIn] = useIsAuthenticated();
   const { auth, state } = useAuth();
-  const { inUser, pRecord, pKey, pvKey } = useBoundStore3();
+  const { inUser, pRecord, pKey, pvKey, lighthouseapi } = useBoundStore3();
   const { classes, theme } = useStyles();
-  const openRef = useRef<() => void>(null)
+  const [dataseter, setDataseter] = useState<string[]>([])
+  const openRef = useRef<() => void>(null);
+  useEffect(() => {
+    auth!.onAuthUpdate((authState) => {
+      if (lighthouseapi != null) {
+        const upload = await lighthouse.getUploads(lighthouseapi)
+        var setter = JSON.stringify(upload!.data.fileList)
+        setDataseter(setter);
+        console.log(dataseter);
+      }
+    })
+  },[lighthouseapi])
   return (
     <>
       <FirstHeader/>
