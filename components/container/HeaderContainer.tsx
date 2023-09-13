@@ -93,7 +93,7 @@ export function HeaderContainer () {
   const [opened3, handlers3] = useDisclosure(false);
   const [openedburger, { toggle }] = useDisclosure(false);
   const [pvkeyst, setPvkeyst] = useState<string>('')
-  const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey, addressed, setAddressed } = useBoundStore3();
+  const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey, addressed, setAddressed, lighthouseapi, updatelighthouseapi } = useBoundStore3();
   const [isLoggedIn] = useIsAuthenticated();
   const polybase = usePolybase();
   
@@ -106,6 +106,7 @@ export function HeaderContainer () {
     updatepRecord(null);
     updatepKey(null);
     setAddressed(['']);
+    updatelighthouseapi(null);
     const res = await auth.signIn();
     console.log(res,'gg')
     let publicKeys: any  = res!.publicKey;
@@ -121,6 +122,7 @@ export function HeaderContainer () {
     }else{
       setPvkeyst(userData.data.pvkeyst as string ||'');
       setAddressed(userData.data.address as string[] ||['']);
+      updatelighthouseapi(userData.data.lighthousekeyst as string ||'');
       handlers.open();
     }
   };
@@ -131,6 +133,7 @@ export function HeaderContainer () {
     updatepRecord(null);
     updatepKey(null);
     setAddressed(['']);
+    updatelighthouseapi(null);
   }
   const handleSubmit = async(values: FormValues) => {
     form.reset();
@@ -173,14 +176,13 @@ export function HeaderContainer () {
       return(litt);
     }
     var lighthousekey :any = await getApiKey();
-    const uploads = await lighthouse.getUploads(lighthousekey);
-    console.log(uploads);
     const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, dud2.toString()]);
     console.log(userData314,'userData314');
     updatepRecord(dud2);
     updatepKey(dud);
     updatepvKey(privateKey);
     setAddressed(addman);
+    updatelighthouseapi(lighthousekey);
     close();
   }
   const handleSubmit3 = async(values: FormValues3) => {
@@ -233,6 +235,7 @@ export function HeaderContainer () {
       updatepKey(keys);
       updatepvKey(privateKey);
       setAddressed(addman);
+      updatelighthouseapi(lighthousekey);
       handlers3.close();
     }catch(e){
       console.log(e);
