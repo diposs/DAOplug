@@ -41,7 +41,7 @@ export default function Home() {
     if (lighthouseapi != null) {
       const fetched = async () => {
         const upload = lighthouse.getUploads(lighthouseapi)
-        var setter = JSON.stringify(upload.data.fileList)
+        var setter = JSON.stringify(upload?.data.fileList)
         var dool =  [];
         dool.push(setter);
         setDataseter(dool);
