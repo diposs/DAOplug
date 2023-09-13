@@ -1,94 +1,83 @@
 import {FirstHeader} from '../components/header/header1';
-import { useRef } from 'react';
-import { Text, Group, Button, createStyles, rem } from '@mantine/core';
-import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
-import { IconCloudUpload, IconX, IconDownload } from '@tabler/icons-react';
-import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
-import { useBoundStore3} from '../stores/datastate';
-
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    position: 'relative',
-    marginBottom: rem(30),
-  },
-
-  dropzone: {
-    borderWidth: rem(1),
-    paddingBottom: rem(50),
-  },
-
-  icon: {
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
-  },
-
-  control: {
-    position: 'absolute',
-    width: rem(250),
-    left: `calc(50% - ${rem(125)})`,
-    bottom: rem(-20),
-  },
-}));
-
-export default function Home() {
-  const [isLoggedIn] = useIsAuthenticated();
-  const { auth, state } = useAuth();
-  const { inUser, pRecord, pKey, pvKey } = useBoundStore3();
-  const { classes, theme } = useStyles();
-  const openRef = useRef<() => void>(null)
-  return (
-    <>
-      <FirstHeader/>
-      {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (
-      <div className={classes.wrapper}>
-      <Dropzone
-        openRef={openRef}
-        onDrop={() => {}}
-        className={classes.dropzone}
-        radius="md"
-        accept={[MIME_TYPES.pdf]}
-        maxSize={30 * 1024 ** 2}
-      >
-        <div style={{ pointerEvents: 'none' }}>
-          <Group position="center">
-            <Dropzone.Accept>
-              <IconDownload
-                size={rem(50)}
-                color={theme.colors[theme.primaryColor][6]}
-                stroke={1.5}
-              />
-            </Dropzone.Accept>
-            <Dropzone.Reject>
-              <IconX size={rem(50)} color={theme.colors.red[6]} stroke={1.5} />
-            </Dropzone.Reject>
-            <Dropzone.Idle>
-              <IconCloudUpload
-                size={rem(50)}
-                color={theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black}
-                stroke={1.5}
-              />
-            </Dropzone.Idle>
-          </Group>
-
-          <Text ta="center" fw={700} fz="lg" mt="xl">
-            <Dropzone.Accept>Drop files here</Dropzone.Accept>
-            <Dropzone.Reject>Pdf file less than 30mb</Dropzone.Reject>
-            <Dropzone.Idle>Upload resume</Dropzone.Idle>
-          </Text>
-          <Text ta="center" fz="sm" mt="xs" c="dimmed">
-            Drag&apos;n&apos;drop files here to upload. We can accept only <i>.pdf</i> files that
-            are less than 30mb in size.
-          </Text>
+import { useHuddle01 } from '@huddle01/react';
+import { useLobby, useAudio, useVideo, useRoom } from '@huddle01/react/hooks';
+ 
+  const App = () => {
+    const { initialize, isInitialized } = useHuddle01();
+    const { joinLobby } = useLobby();
+    const { 
+      fetchAudioStream, stopAudioStream, error: micError, 
+      produceAudio, stopProducingAudio 
+    } = useAudio();
+ 
+    const { 
+      fetchVideoStream, stopVideoStream, error: camError, 
+      produceVideo, stopProducingVideo 
+    } = useVideo(); 
+    const { joinRoom, leaveRoom } = useRoom();
+ 
+    const { peerIds } = usePeers();
+ 
+    useEffect(() => {
+      // its preferable to use env vars to store projectId
+      initialize('YOUR_PROJECT_ID');
+    }, []);
+  
+    return (
+      <div>{isInitialized ? 'Hello World!' : 'Please initialize'}
+ 
+        <div className="grid grid-cols-4">
+          {peerIds.map(peerId => (
+              <Video key={peer.peerId} peerId={peer.peerId} debug />
+          ))}
+ 
+          {peerIds.map(peerId => (
+              <Audio key={peer.peerId} peerId={peer.peerId} debug />
+          ))}
         </div>
-      </Dropzone>
-
-      <Button className={classes.control} size="md" radius="xl" onClick={() => openRef.current?.()}>
-        Select files
-      </Button>
-    </div>
-      ) : (
-      <></>
-    )}
-      </>
-   
-  );
-}
+ 
+        <button 
+          disabled={joinLobby.isCallable} 
+          onClick={() => joinLobby('YOUR_ROOM_ID');
+        }>
+          Join Lobby
+        </button>
+ 
+        {/* Mic */} 
+        <button disabled={!fetchAudioStream.isCallable} onClick={fetchAudioStream}>
+          FETCH_AUDIO_STREAM
+        </button>
+ 
+        {/* Webcam */} 
+        <button disabled={!fetchVideoStream.isCallable} onClick={fetchVideoStream}>
+          FETCH_VIDEO_STREAM
+        </button>
+ 
+        <button disabled={!joinRoom.isCallable} onClick={joinRoom}>
+          JOIN_ROOM 
+        </button>
+ 
+        <button disabled={!leaveRoom.isCallable} onClick={leaveRoom}>
+          LEAVE_ROOM 
+        </button>
+ 
+        <button disabled={!produceVideo.isCallable} onClick={() => produceVideo(camStream)}>
+          Produce Cam  
+        </button>
+ 
+        <button disabled={!produceAudio.isCallable} onClick={() => produceAudio(micStream)}>
+          Produce Mic  
+        </button>
+ 
+        <button disabled={!stopProducingVideo.isCallable} onClick={stopProducingVideo}>
+          Stop Producing Cam  
+        </button>
+ 
+        <button disabled={!stopProducingAudio.isCallable} onClick={stopProducingAudio}>
+          Stop Producing Mic  
+        </button>
+ 
+      </div>
+    );
+  };
+ 
