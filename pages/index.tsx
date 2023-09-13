@@ -43,10 +43,10 @@ export default function Home() {
         const upload = await lighthouse.getUploads(lighthouseapi)
         const setter = JSON.stringify(upload.data.fileList);
         setPvkeyst(setter);
-        console.log(dataseter, 'dswww');
+        console.log(pvkeyst, 'dswww');
         }
       fetched();
-      console.log(dataseter);
+      console.log(pvkeyst);
     }
   },[lighthouseapi])
   return (
