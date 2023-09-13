@@ -41,8 +41,7 @@ export default function Home() {
     if (lighthouseapi != null) {
       const fetched = async () => {
         const upload = await lighthouse.getUploads(lighthouseapi)
-        const setter = JSON.stringify(upload.data.fileList);
-        setPvkeystd(setter as string  || '[]');
+        setPvkeystd(JSON.stringify(upload.data.fileList) as string  || '[]');
         console.log(pvkeystd, 'dswww');
         }
       fetched();
