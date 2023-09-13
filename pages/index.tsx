@@ -42,9 +42,9 @@ export default function Home() {
       const fetched = async () => {
         const upload = await lighthouse.getUploads(lighthouseapi)
         var setter = JSON.stringify(upload.data.fileList);
-        console.log(setter);
-        setDataseter(setter);
-        console.log(dataseter);
+        console.log(setter,'dsdaa');
+        setDataseter(setter as string || null);
+        console.log(dataseter, 'dswww');
         }
       fetched();
       console.log(dataseter);
