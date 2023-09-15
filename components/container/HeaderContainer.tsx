@@ -209,6 +209,16 @@ export function HeaderContainer () {
     var lighthousekey :any = await getApiKey();
     const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, dud2.toString()]);
     console.log(userData314,'userData314');
+    notifications.update({
+      id: 'Login',
+      withCloseButton: false,
+      autoClose: 3000,
+      title: "Registration Successful",
+      message: 'Registration squence successful!',
+      color: 'teal',
+      icon: <IconCheck />,
+      loading: false,
+    });
     updatepRecord(dud2);
     updatepKey(dud);
     updatepvKey(privateKey);
@@ -259,6 +269,16 @@ export function HeaderContainer () {
       var lighthousekey :any = await getApiKey();
       const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, recordkey]);
       console.log(userData314,'userData314');
+      notifications.update({
+        id: 'Login',
+        withCloseButton: true,
+        autoClose: 3000,
+        title: "Registration Successful",
+        message: 'Registration squence successful!',
+        color: 'teal',
+        icon: <IconCheck />,
+        loading: false,
+      });
       updatepRecord(recordkey);
       updatepKey(keys);
       updatepvKey(privateKey);
@@ -305,6 +325,16 @@ export function HeaderContainer () {
       const precordalpha = encodeToString(publicKey2, 'hex');
       var walled1 = await new ethers.Wallet(strData);
       if(!addressed.includes(walled1.address.toString())) throw 'Errored';
+      notifications.update({
+        id: 'Login',
+        withCloseButton: true,
+        autoClose: 3000,
+        title: "LogIn Successful",
+        message: 'LogIn squence successful!',
+        color: 'teal',
+        icon: <IconCheck />,
+        loading: false,
+      });
       updatepRecord(precordalpha);
       updatepKey(publicKey2);
       updatepvKey(strData);
