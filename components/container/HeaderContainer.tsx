@@ -119,55 +119,42 @@ export function HeaderContainer () {
     });
     try{
       const res = await auth.signIn();
-    }catch(e){
+      console.log(res,'gg')
+      let publicKeys: any  = state!.publicKey;
       notifications.update({
         id: 'Login',
-        withCloseButton: true,
-        autoClose: 4000,
-        title: "Logging In Failed",
-        message: 'Logging In / Registration squence failed. Failed to reach Polybase Database',
-        color: 'red',
-        icon: <IconX />,
-        loading: false,
+        autoClose: false,
+        title: "Logging In",
+        message: 'Logging In / Registration squence progressing . Polybase Database reached',
+        color: 'teal',
+        loading: true,
       });
-    }
-    console.log(res,'gg')
-    let publicKeys: any  = res!.publicKey;
-    notifications.update({
-      id: 'Login',
-      autoClose: false,
-      title: "Logging In",
-      message: 'Logging In / Registration squence progressing . Polybase Database reached',
-      color: 'teal',
-      loading: true,
-    });
-    updateinUser(publicKeys);
-    try{
+      updateinUser(publicKeys);
       const userData = await polybase.collection('User').record(publicKeys).get();
+      const exists = userData.exists();
+      if(exists == false){
+        if(res!.type =='email'){
+          open();//handlers.open();//open();
+        } else{
+          handlers3.open()
+        }
+      }else{
+        setPvkeyst(userData.data.pvkeyst as string ||'');
+        setAddressed(userData.data.address as string[] ||['']);
+        updatelighthouseapi(userData.data.lighthousekeyst as string ||'');
+        handlers.open();
+      }
     }catch(e){
       notifications.update({
         id: 'Login',
         withCloseButton: true,
         autoClose: 4000,
         title: "Logging In Failed",
-        message: 'Logging In / Registration squence failed. Failed to reach Polybase Database',
+        message: 'Logging In / Registration squence failed!',
         color: 'red',
         icon: <IconX />,
         loading: false,
       });
-    }
-    const exists = userData.exists();
-    if(exists == false){
-      if(res!.type =='email'){
-        open();//handlers.open();//open();
-      } else{
-        handlers3.open()
-      }
-    }else{
-      setPvkeyst(userData.data.pvkeyst as string ||'');
-      setAddressed(userData.data.address as string[] ||['']);
-      updatelighthouseapi(userData.data.lighthousekeyst as string ||'');
-      handlers.open();
     }
   };
   const signoutUser =  async() => {
