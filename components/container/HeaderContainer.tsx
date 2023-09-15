@@ -361,7 +361,7 @@ export function HeaderContainer () {
       </Box>
     </Modal>
     <Modal opened={opened3} onClose={() => handlers3.close()} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
-      <Box component="form" miw="100%" mx="auto" onSubmit={form3.onSubmit(handleSubmit3)}>
+      <Box component="form" miw={{ base: "100%", xs:"100%", sm: "100%",  md:  402, lg: 402, xl: 402 }} mx="auto" onSubmit={form3.onSubmit(handleSubmit3)}>
         <TextInput placeholder="Your Private Key" label="Private Key" required {...form3.getInputProps('privatekey1')} />
         <PasswordInput placeholder="Your password" label="Password" required {...form3.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md">
