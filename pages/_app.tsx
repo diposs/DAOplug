@@ -1,18 +1,28 @@
-import type { AppProps } from 'next/app';
-import { useEffect } from 'react';
-import { MantineProvider } from '@mantine/core';
+import { useEffect, useState } from 'react';
 import { PolybaseProvider,AuthProvider } from "@polybase/react";
-import { rtlCache } from '../rtl-cache';
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
 import { ethPersonalSign } from '@polybase/eth'
 import { useBoundStore3 } from '../stores/datastate'
+import NextApp, { AppProps, AppContext } from 'next/app';
+import { getCookie, setCookie } from 'cookies-next';
+import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 
-const polybase = new Polybase({defaultNamespace: process.env.NEXT_PUBLIC_DB,}); 
-const auth = typeof window !== "undefined" ? new Auth() : null;
+//const polybase = new Polybase({defaultNamespace: process.env.NEXT_PUBLIC_DB,}); 
+//const auth = typeof window !== "undefined" ? new Auth() : null;
 
-export default function App(props: AppProps) {
- const { Component, pageProps } = props;
+export default function App(props: AppProps & { colorScheme: ColorScheme }) {
+  const { Component, pageProps } = props;
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
+
+  const toggleColorScheme = (value?: ColorScheme) => {
+    const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark');
+    setColorScheme(nextColorScheme);
+    setCookie('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
+  };
+ const polybase = new Polybase({defaultNamespace: process.env.NEXT_PUBLIC_DB,}); 
+ const auth = typeof window !== "undefined" ? new Auth() : null;
  const { pvKey } = useBoundStore3();
   useEffect(() => {
     polybase.signer(async (data) => {
@@ -32,20 +42,25 @@ export default function App(props: AppProps) {
 
  
   return (
-     <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        emotionCache={rtlCache}
-        theme={{
-          /** Put your mantine theme override here */
-          colorScheme: 'light',
-        }}
-     >
+   <>
+   <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+     <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
       <PolybaseProvider polybase={polybase}>
        <AuthProvider auth={auth!} polybase={polybase}>
          <Component {...pageProps} />
+        <Notifications />
        </AuthProvider>
       </PolybaseProvider>
      </MantineProvider>
+    </ColorSchemeProvider>
+    </>
   );
 }
+
+App.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await NextApp.getInitialProps(appContext);
+  return {
+    ...appProps,
+    colorScheme: getCookie('mantine-color-scheme', appContext.ctx) || 'dark',
+  };
+};
