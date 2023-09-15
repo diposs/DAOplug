@@ -335,8 +335,8 @@ export function HeaderContainer () {
     <HeadGroup/>
     {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton className={classes.mobile} onClick={signoutUser} />) : (<GsButton onClick={signInUser} className={classes.mobile} />)}
     <Burger opened={openedburger} onClick={toggle} className={classes.nonMobile} />
-    <Modal opened={opened} onClose={close} size={{ base: '95svw', sm: '95svw', md: 400, lg: 400 }} centered withCloseButton={false} closeOnClickOutside={false}>
-      <Box component="form" mx="auto" onSubmit={form.onSubmit(handleSubmit)}>
+    <Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
+      <Box component="form" miw="100%" mx="auto" onSubmit={form.onSubmit(handleSubmit)}>
         <PasswordInput placeholder="Your password" label="Password" required {...form.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md">
           {bars}
@@ -344,24 +344,24 @@ export function HeaderContainer () {
         <PasswordRequirement label="Has at least 6 characters" meets={valued.length >= 6} />
         {checks}
         <PasswordInput placeholder="Confirm Password" label="Confirm Password" required{...form.getInputProps('confirmPassword')} />
-        <Group position="right" mt="md">
+        <Group position="center" mt="md">
           <Button type="submit">Submit</Button>
         </Group>
       </Box>
     </Modal>
-    <Modal opened={opened2} onClose={() => handlers.close()} size={{ base: '95svw', sm: '95svw', md: 400, lg: 400 }} centered withCloseButton={false} closeOnClickOutside={false}>
-      <Box component="form" mx="auto" onSubmit={form2.onSubmit(handleSubmit2)}>
+    <Modal opened={opened2} onClose={() => handlers.close()} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
+      <Box component="form" miw="100%" mx="auto" onSubmit={form2.onSubmit(handleSubmit2)}>
         <PasswordInput placeholder="Your password" label="Password" required {...form2.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md"/>
         <PasswordRequirement label="Has at least 6 characters" meets={valued2.length >= 6} />
         {checks2}
-        <Group position="right" mt="md">
+        <Group position="center" mt="md">
           <Button type="submit">Submit</Button>
         </Group>
       </Box>
     </Modal>
-    <Modal opened={opened3} onClose={() => handlers3.close()} size={{ base: '95svw', sm: '95svw', md: 400, lg: 400 }} centered withCloseButton={false} closeOnClickOutside={false}>
-      <Box component="form" mx="auto" onSubmit={form3.onSubmit(handleSubmit3)}>
+    <Modal opened={opened3} onClose={() => handlers3.close()} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
+      <Box component="form" miw="100%" mx="auto" onSubmit={form3.onSubmit(handleSubmit3)}>
         <TextInput placeholder="Your Private Key" label="Private Key" required {...form3.getInputProps('privatekey1')} />
         <PasswordInput placeholder="Your password" label="Password" required {...form3.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md">
@@ -370,7 +370,7 @@ export function HeaderContainer () {
         <PasswordRequirement label="Has at least 6 characters" meets={valued3.length >= 6} />
         {checks3}
         <PasswordInput placeholder="Confirm Password" label="Confirm Password" required{...form3.getInputProps('confirmPassword')} />
-        <Group position="right" mt="md">
+        <Group position="center" mt="md">
           <Button type="submit">Submit</Button>
         </Group>
       </Box>
