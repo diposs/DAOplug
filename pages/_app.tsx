@@ -10,8 +10,8 @@ import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 
-const polybase = new Polybase({defaultNamespace: process.env.NEXT_PUBLIC_DB,}); 
-const auth = typeof window !== "undefined" ? new Auth() : null;
+//const polybase = new Polybase({defaultNamespace: process.env.NEXT_PUBLIC_DB,}); 
+//const auth = typeof window !== "undefined" ? new Auth() : null;
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -22,8 +22,8 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     setColorScheme(nextColorScheme);
     setCookie('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
   };
- //const polybase = new Polybase({defaultNamespace: process.env.NEXT_PUBLIC_DB,}); 
- //const auth = typeof window !== "undefined" ? new Auth() : null;
+ const polybase = new Polybase({defaultNamespace: process.env.NEXT_PUBLIC_DB,}); 
+ const auth = typeof window !== "undefined" ? new Auth() : null;
  const { pvKey } = useBoundStore3();
   useEffect(() => {
     polybase.signer(async (data) => {
