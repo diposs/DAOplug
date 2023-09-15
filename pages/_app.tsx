@@ -6,6 +6,7 @@ import { ethPersonalSign } from '@polybase/eth'
 import { useBoundStore3 } from '../stores/datastate'
 import NextApp, { AppProps, AppContext } from 'next/app';
 import { getCookie, setCookie } from 'cookies-next';
+import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 
@@ -42,7 +43,11 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
  
   return (
-   
+  <>
+    <Head>
+        <title>Dao Plug</title>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+    </Head>
    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
       <PolybaseProvider polybase={polybase}>
@@ -53,6 +58,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
       </PolybaseProvider>
      </MantineProvider>
     </ColorSchemeProvider>
+  </>
   );
 }
 
