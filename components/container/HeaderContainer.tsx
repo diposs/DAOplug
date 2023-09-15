@@ -121,7 +121,7 @@ export function HeaderContainer () {
     try{
       const res = await auth.signIn();
       console.log(res,'gg')
-      let publicKeys: any  = state!.publicKey;
+      let publicKeys: any  = res!.publicKey;
       notifications.update({
         id: 'Login',
         autoClose: false,
