@@ -47,7 +47,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
     </Head>
    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-     <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+     <MantineProvider theme={{ colorScheme, loader: 'bars' }} withGlobalStyles withNormalizeCSS>
       <PolybaseProvider polybase={polybase}>
        <AuthProvider auth={auth!} polybase={polybase}>
          <Component {...pageProps} />
