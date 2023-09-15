@@ -1,7 +1,8 @@
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
-import { MantineProvider, createEmotionCache } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import { PolybaseProvider,AuthProvider } from "@polybase/react";
+import { rtlCache } from '../rtl-cache';
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
 import { ethPersonalSign } from '@polybase/eth'
@@ -9,9 +10,9 @@ import { useBoundStore3 } from '../stores/datastate'
 
 const polybase = new Polybase({defaultNamespace: process.env.NEXT_PUBLIC_DB,}); 
 const auth = typeof window !== "undefined" ? new Auth() : null;
-const myCache = createEmotionCache({ key: 'mantine' });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App(props: AppProps) {
+ const { Component, pageProps } = props;
  const { pvKey } = useBoundStore3();
   useEffect(() => {
     polybase.signer(async (data) => {
@@ -34,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
      <MantineProvider
         withGlobalStyles
         withNormalizeCSS
-        emotionCache={myCache}
+        emotionCache={rtlCache}
         theme={{
           /** Put your mantine theme override here */
           colorScheme: 'light',
