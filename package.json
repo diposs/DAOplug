@@ -19,6 +19,7 @@
     "@polybase/auth": "^0.6.6",
     "@polybase/client": "^0.6.6",
     "@polybase/eth": "^0.6.6",
+    "cookies-next": "^2.1.1",
     "@polybase/react": "^0.6.6",
     "@glif/filecoin-address": "^2.0.43",
     "@lighthouse-web3/sdk": "^0.2.7",
