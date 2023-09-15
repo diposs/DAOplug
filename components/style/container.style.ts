@@ -5,7 +5,6 @@ export default createStyles ((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#ffffff',
       },
       mobile: {
         [theme.fn.smallerThan('sm')]: {
