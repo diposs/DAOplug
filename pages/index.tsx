@@ -1,4 +1,5 @@
 import {FirstHeader} from '../components/header/header1';
+import { ColorSchemeToggle } from '../components/ColorSchemeToggle';
 import { useRef, useEffect, useState } from 'react';
 import { Text, Group, Button, createStyles, rem } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
@@ -50,6 +51,7 @@ export default function Home() {
   return (
     <>
       <FirstHeader/>
+      <ColorSchemeToggle />
       {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (
       <>
       <div className={classes.wrapper}>
