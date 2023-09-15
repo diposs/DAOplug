@@ -15,6 +15,7 @@ import { useBoundStore3} from '../../stores/datastate';
 import { newDelegatedEthAddress } from '@glif/filecoin-address';
 import { hashEthereumSignedMessage  } from '@polybase/eth'
 //import { Polybase } from "@polybase/client"
+import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 
 interface FormValues {
@@ -107,11 +108,54 @@ export function HeaderContainer () {
     updatepKey(null);
     setAddressed(['']);
     updatelighthouseapi(null);
-    const res = await auth.signIn();
+    notifications.show({
+      id: 'Login',
+      withCloseButton: false,
+      autoClose: false,
+      title: "Logging In",
+      message: 'Logging In / Registration squence started. Contacting Polybase Database',
+      color: 'pink',
+      loading: true,
+    });
+    try{
+      const res = await auth.signIn();
+    }catch(e){
+      notifications.update({
+        id: 'Login',
+        withCloseButton: true,
+        autoClose: 4000,
+        title: "Logging In Failed",
+        message: 'Logging In / Registration squence failed. Failed to reach Polybase Database',
+        color: 'red',
+        icon: <IconX />,
+        loading: false,
+      });
+    }
     console.log(res,'gg')
     let publicKeys: any  = res!.publicKey;
+    notifications.update({
+      id: 'Login',
+      autoClose: false,
+      title: "Logging In",
+      message: 'Logging In / Registration squence progressing . Polybase Database reached',
+      color: 'teal',
+      loading: true,
+    });
     updateinUser(publicKeys);
-    const userData = await polybase.collection('User').record(publicKeys).get();
+    try{
+      const userData = await polybase.collection('User').record(publicKeys).get();
+    }catch(e){
+      notifications.update({
+        id: 'Login',
+        withCloseButton: true,
+        autoClose: 4000,
+        title: "Logging In Failed",
+        message: 'Logging In / Registration squence failed. Failed to reach Polybase Database',
+        color: 'red',
+        icon: <IconX />,
+        loading: false,
+      });
+    }
     const exists = userData.exists();
     if(exists == false){
       if(res!.type =='email'){
