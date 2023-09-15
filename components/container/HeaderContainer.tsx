@@ -128,6 +128,7 @@ export function HeaderContainer () {
         title: "Logging In",
         message: 'Logging In / Registration squence progressing . Polybase Database reached',
         color: 'teal',
+        withCloseButton: false,
         loading: true,
       });
       updateinUser(publicKeys);
@@ -211,7 +212,7 @@ export function HeaderContainer () {
     console.log(userData314,'userData314');
     notifications.update({
       id: 'Login',
-      withCloseButton: false,
+      withCloseButton: true,
       autoClose: 3000,
       title: "Registration Successful",
       message: 'Registration squence successful!',
