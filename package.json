@@ -26,6 +26,7 @@
     "@lighthouse-web3/sdk": "^0.2.7",
     "nft.storage": "^7.1.1",
     "@huddle01/react": "0.0.9",
+    "@next/bundle-analyzer": "^13.1.6",
     "@polybase/util": "^0.6.6",
     "@safe-global/api-kit": "^1.3.0",
     "@safe-global/protocol-kit": "^1.2.0",
