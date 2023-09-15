@@ -108,6 +108,7 @@ export function HeaderContainer () {
     updatepKey(null);
     setAddressed(['']);
     updatelighthouseapi(null);
+    notifications.clean();
     notifications.show({
       id: 'Login',
       withCloseButton: false,
