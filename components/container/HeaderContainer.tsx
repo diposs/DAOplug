@@ -402,10 +402,10 @@ export function HeaderContainer () {
   return (
   <Container className={classes.inner} fluid>
     <HeadGroup/>
-    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={{signoutUser}} className={classes.mobile} />) : 
+    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={{signoutUser}} className={{classes.mobile}} />) : 
       (
     {
-      !loaders ? (<GsButton onClick={{signInUser}} className={classes.mobile} loading />) :(<GsButton onClick={{signInUser}} className={classes.mobile} />)
+      !loaders ? (<GsButton onClick={{signInUser}} className={{classes.mobile}} loading />) :(<GsButton onClick={{signInUser}} className={{classes.mobile}} />)
     }
       )
     }
