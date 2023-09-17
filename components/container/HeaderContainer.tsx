@@ -92,6 +92,7 @@ export function HeaderContainer () {
   const [opened, { open, close }] = useDisclosure(false);
   const [opened2, handlers] = useDisclosure(false);
   const [opened3, handlers3] = useDisclosure(false);
+  const [loaders, handlersloader] = useDisclosure(false);
   const [openedburger, { toggle }] = useDisclosure(false);
   const [pvkeyst, setPvkeyst] = useState<string>('')
   const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey, addressed, setAddressed, lighthouseapi, updatelighthouseapi } = useBoundStore3();
@@ -122,6 +123,7 @@ export function HeaderContainer () {
       const res = await auth.signIn();
       console.log(res,'gg')
       let publicKeys: any  = res!.publicKey;
+      handlersloader.open();
       notifications.update({
         id: 'Login',
         autoClose: false,
@@ -147,6 +149,7 @@ export function HeaderContainer () {
         handlers.open();
       }
     }catch(e){
+      handlersloader.close();
       notifications.update({
         id: 'Login',
         withCloseButton: true,
@@ -210,6 +213,7 @@ export function HeaderContainer () {
     var lighthousekey :any = await getApiKey();
     const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, dud2.toString()]);
     console.log(userData314,'userData314');
+    handlersloader.close();
     notifications.update({
       id: 'Login',
       withCloseButton: true,
@@ -270,6 +274,7 @@ export function HeaderContainer () {
       var lighthousekey :any = await getApiKey();
       const userData314 = await polybase.collection('User').create([publicq,str2,state!.type, addman, lighthousekey, recordkey]);
       console.log(userData314,'userData314');
+      handlersloader.close();
       notifications.update({
         id: 'Login',
         withCloseButton: true,
@@ -326,6 +331,7 @@ export function HeaderContainer () {
       const precordalpha = encodeToString(publicKey2, 'hex');
       var walled1 = await new ethers.Wallet(strData);
       if(!addressed.includes(walled1.address.toString())) throw 'Errored';
+      handlersloader.close();
       notifications.update({
         id: 'Login',
         withCloseButton: true,
@@ -396,7 +402,7 @@ export function HeaderContainer () {
   return (
   <Container className={classes.inner} fluid>
     <HeadGroup/>
-    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton className={classes.mobile} onClick={signoutUser} />) : (<GsButton onClick={signInUser} className={classes.mobile} />)}
+    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton className={classes.mobile} onClick={signoutUser} />) : ({(loaders != false) ? (<GsButton onClick={signInUser} className={classes.mobile} loading />) :(<GsButton onClick={signInUser} className={classes.mobile} />)})}
     <Burger opened={openedburger} onClick={toggle} className={classes.nonMobile} />
     <Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
       <Box component="form" miw={{ base: "100%", xs: 343, sm: 343, md: 343, lg: 343, xl: 343 }} mx="auto" onSubmit={form.onSubmit(handleSubmit)}>
