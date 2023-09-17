@@ -92,7 +92,7 @@ export function HeaderContainer () {
   const [opened, { open, close }] = useDisclosure(false);
   const [opened2, handlers] = useDisclosure(false);
   const [opened3, handlers3] = useDisclosure(false);
-  const [loaders, handlersloader] = useDisclosure(false);
+  const [loadersed, handlersloader] = useDisclosure(false);
   const [openedburger, { toggle }] = useDisclosure(false);
   const [pvkeyst, setPvkeyst] = useState<string>('')
   const { inUser, pRecord, updateinUser, pKey, updatepRecord, updatepKey, pvKey, updatepvKey, addressed, setAddressed, lighthouseapi, updatelighthouseapi } = useBoundStore3();
@@ -402,12 +402,10 @@ export function HeaderContainer () {
   return (
   <Container className={classes.inner} fluid>
     <HeadGroup/>
-    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={{signoutUser}} className={{classes.mobile}} />) : 
-      (
-    {
-      !loaders ? (<GsButton onClick={{signInUser}} className={{classes.mobile}} loading />) :(<GsButton onClick={{signInUser}} className={{classes.mobile}} />)
-    }
-      )
+    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={signoutUser} className={classes.mobile} />) : 
+    (
+      <GsButton onClick={signInUser} className={classes.mobile} loading={loadersed} />
+    )
     }
     <Burger opened={openedburger} onClick={toggle} className={classes.nonMobile} />
     <Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
