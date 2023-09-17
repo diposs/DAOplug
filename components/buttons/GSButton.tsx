@@ -9,8 +9,3 @@ export const GsLogoutButton = ({ ...rest }) =>  {
         <Button radius="md" h={40}  { ...rest }>LogOut</Button>
     );
 }
-export const GsopsButton = ({ ...rest }) =>  {
-    return (
-        <Button radius="md" h={40}  disable >{ ...rest }</Button>
-    );
-}
