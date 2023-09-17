@@ -402,7 +402,11 @@ export function HeaderContainer () {
   return (
   <Container className={classes.inner} fluid>
     <HeadGroup/>
-    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton className={classes.mobile} onClick={signoutUser} />) : ({(loaders != false) ? (<GsButton onClick={signInUser} className={classes.mobile} loading />) :(<GsButton onClick={signInUser} className={classes.mobile} />)})}
+    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton className={classes.mobile} onClick={signoutUser} />) : (
+    {
+      !loaders ? (<GsButton onClick={signInUser} className={classes.mobile} loading />) :(<GsButton onClick={signInUser} className={classes.mobile} />)
+    })
+    }
     <Burger opened={openedburger} onClick={toggle} className={classes.nonMobile} />
     <Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
       <Box component="form" miw={{ base: "100%", xs: 343, sm: 343, md: 343, lg: 343, xl: 343 }} mx="auto" onSubmit={form.onSubmit(handleSubmit)}>
