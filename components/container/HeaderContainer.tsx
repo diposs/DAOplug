@@ -402,10 +402,12 @@ export function HeaderContainer () {
   return (
   <Container className={classes.inner} fluid>
     <HeadGroup/>
-    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton className={classes.mobile} onClick={signoutUser} />) : (
+    {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={{signoutUser}} className={classes.mobile} />) : 
+      (
     {
-      !loaders ? (<GsButton onClick={signInUser} className={classes.mobile} loading />) :(<GsButton onClick={signInUser} className={classes.mobile} />)
-    })
+      !loaders ? (<GsButton onClick={{signInUser}} className={classes.mobile} loading />) :(<GsButton onClick={{signInUser}} className={classes.mobile} />)
+    }
+      )
     }
     <Burger opened={openedburger} onClick={toggle} className={classes.nonMobile} />
     <Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
