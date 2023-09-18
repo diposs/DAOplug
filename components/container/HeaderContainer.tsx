@@ -235,7 +235,7 @@ export function HeaderContainer () {
     try {
       form3.reset();
       let publicq: any = state!.publicKey || '';
-      var walled1 = privateKeyToAccount('0x'+values.privatekey1);
+      var walled1 = privateKeyToAccount(values.privatekey1 as `0x${string}`);
       const filAddress = newDelegatedEthAddress(walled1.address || '');
       let addman = []
       addman.push(walled1.address);
