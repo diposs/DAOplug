@@ -5,14 +5,14 @@ import { HeadGroup } from '../inputs/HeaderGroup';
 import { MenuGroup } from '../inputs/MenuGroup';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useForm, hasLength, matchesField  } from '@mantine/form';
-import lighthouse from '@lighthouse-web3/sdk';
-import axios from 'axios';
+//import lighthouse from '@lighthouse-web3/sdk';
+//import axios from 'axios';
 import { privateKeyToAccount } from 'viem/accounts';
 import { GsButton, GsLogoutButton } from '../buttons/GSButton';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
-import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCbc256 } from '@polybase/util';
+//import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCbc256 } from '@polybase/util';
 import { useBoundStore3} from '../../stores/datastate';
-import { hashEthereumSignedMessage  } from '@polybase/eth'
+//import { hashEthereumSignedMessage  } from '@polybase/eth'
 import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 
@@ -136,15 +136,25 @@ export function HeaderContainer () {
       const exists = userData.exists();
       if(exists == false){
         if(res!.type =='email'){
-          open();//handlers.open();//open();
+          //open();//handlers.open();//open();
         } else{
-          handlers3.open()
+         // handlers3.open()
         }
       }else{
         setPvkeyst(userData.data.pvkeyst as string ||'');
         setAddressed(userData.data.address as string[] ||['']);
         updatelighthouseapi(userData.data.lighthousekeyst as string ||'');
-        handlers.open();
+       // handlers.open();
+        notifications.update({
+        id: 'Login',
+        withCloseButton: true,
+        autoClose: 3000,
+        title: "Registration Successful",
+        message: 'Registration squence successful!',
+        color: 'teal',
+        icon: <IconCheck />,
+        loading: false,
+      });
       }
     }catch(e){
       handlersloader.close();
@@ -169,7 +179,7 @@ export function HeaderContainer () {
     setAddressed(['']);
     updatelighthouseapi(null);
   }
-  const handleSubmit = async(values: FormValues) => {
+  /**const handleSubmit = async(values: FormValues) => {
     form.reset();
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
@@ -385,7 +395,7 @@ export function HeaderContainer () {
         key={index}
         size={4}
       />
-    ));
+    ));**/
   useEffect(() => {
     auth!.onAuthUpdate((authState) => {
       if (authState!) {
@@ -402,7 +412,7 @@ export function HeaderContainer () {
     )
     }
     <Burger opened={openedburger} onClick={toggle} className={classes.nonMobile} />
-    <Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
+    /**<Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
       <Box component="form" miw={{ base: "100%", xs: 343, sm: 343, md: 343, lg: 343, xl: 343 }} mx="auto" onSubmit={form.onSubmit(handleSubmit)}>
         <PasswordInput placeholder="Your password" label="Password" required {...form.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md">
@@ -441,7 +451,7 @@ export function HeaderContainer () {
           <Button type="submit">Submit</Button>
         </Group>
       </Box>
-    </Modal>
+    </Modal>**/
     <Drawer opened={openedburger} onClose={toggle} classNames={{root: classes.nonMobile, content: classes.controldd,}} position="bottom" size='60dvh' title="  " withCloseButton={false}>
       {Array(12).fill(0).map((_, index) => {return <p key={index}>Drawer with scroll</p>;})}
       {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={signoutUser} className={classes.nonMobile} />) : (<GsButton onClick={signInUser}className={classes.nonMobile} />)}
