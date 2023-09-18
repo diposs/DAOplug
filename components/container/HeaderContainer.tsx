@@ -7,14 +7,13 @@ import { IconCheck, IconX } from '@tabler/icons-react';
 import { useForm, hasLength, matchesField  } from '@mantine/form';
 import lighthouse from '@lighthouse-web3/sdk';
 import axios from 'axios';
-import { ethers } from "ethers";
+import { privateKeyToAccount } from 'viem/accounts'
 import { GsButton, GsLogoutButton } from '../buttons/GSButton';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
 import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCbc256 } from '@polybase/util';
 import { useBoundStore3} from '../../stores/datastate';
 import { newDelegatedEthAddress } from '@glif/filecoin-address';
 import { hashEthereumSignedMessage  } from '@polybase/eth'
-//import { Polybase } from "@polybase/client"
 import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 
@@ -176,10 +175,10 @@ export function HeaderContainer () {
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
-    var walled1 = await new ethers.Wallet(privateKey);
+    var walled1 = privateKeyToAccount(encodeToString(privateKey,'hex'));
     const filAddress = newDelegatedEthAddress(walled1.address || '');
     let addman = []
-    addman.push(walled1.address.toString());
+    addman.push(walled1.address);
     addman.push(filAddress.toString());
     var dud2 = encodeToString(dud,'hex')
     const keys = decodeFromString(publicq, 'hex');
@@ -205,7 +204,7 @@ export function HeaderContainer () {
             `https://api.lighthouse.storage/api/auth/get_message?publicKey=${walled1.address}`
         )
       ).data
-      const signedMessage = await walled1.signMessage(verificationMessage);
+      const signedMessage = walled1.signMessage(verificationMessage);
       const response = await lighthouse.getApiKey(walled1.address, signedMessage);;
       let litt: any = response!.data.apiKey || null;
       return(litt);
@@ -235,10 +234,10 @@ export function HeaderContainer () {
     try {
       form3.reset();
       let publicq: any = state!.publicKey || '';
-      var walled1 = await new ethers.Wallet(values.privatekey1);
+      var walled1 = privateKeyToAccount(values.privatekey1);
       const filAddress = newDelegatedEthAddress(walled1.address || '');
       let addman = []
-      addman.push(walled1.address.toString());
+      addman.push(walled1.address);
       addman.push(filAddress.toString());
       const recordkey = '0x' + walled1.publicKey.slice(4);
       if(recordkey != publicq) throw 'error';
@@ -329,8 +328,8 @@ export function HeaderContainer () {
       const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey64(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
-      var walled1 = await new ethers.Wallet(strData);
-      if(!addressed.includes(walled1.address.toString())) throw 'Errored';
+      var walled1 = privateKeyToAccount(encodeToString(strData, 'hex'));
+      if(!addressed.includes(walled1.address)) throw 'Errored';
       handlersloader.close();
       notifications.update({
         id: 'Login',
