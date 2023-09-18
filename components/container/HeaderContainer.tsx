@@ -1,8 +1,7 @@
-import { Container, Modal, Button, Group, TextInput, Box , Burger, Drawer,Progress, PasswordInput, Text, Center } from '@mantine/core';
+import { Container, Burger, Drawer } from '@mantine/core';
 import { useDisclosure  } from '@mantine/hooks';
 import  useStyles  from '../style/container.style'
 import { HeadGroup } from '../inputs/HeaderGroup';
-import { MenuGroup } from '../inputs/MenuGroup';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useForm, hasLength, matchesField  } from '@mantine/form';
 //import lighthouse from '@lighthouse-web3/sdk';
@@ -16,80 +15,12 @@ import { useBoundStore3} from '../../stores/datastate';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 
-interface FormValues {
-  password: string;
-  confirmPassword: string;
-}
-interface FormValues3 {
-  privatekey1: string;
-  password: string;
-  confirmPassword: string;
-}
-interface FormValues2 {
-  password: string;
-}
-function PasswordRequirement({ meets, label }: { meets: boolean; label: string }) {
-  return (
-    <Text color={meets ? 'teal' : 'red'} mt={5} size="sm">
-      <Center inline>
-        {meets ? <IconCheck size="0.9rem" stroke={1.5} /> : <IconX size="0.9rem" stroke={1.5} />}
-        <Box ml={7}>{label}</Box>
-      </Center>
-    </Text>
-  );
-}
 
-const requirements = [
-  { re: /[0-9]/, label: 'Includes number' },
-  { re: /[a-z]/, label: 'Includes lowercase letter' },
-  { re: /[A-Z]/, label: 'Includes uppercase letter' },
-  { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: 'Includes special symbol' },
-];
-
-function getStrength(password: string) {
-  let multiplier = password.length > 5 ? 0 : 1;
-
-  requirements.forEach((requirement) => {
-    if (!requirement.re.test(password)) {
-      multiplier += 1;
-    }
-  });
-
-  return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 0);
-}
 export function HeaderContainer () {
-  const form = useForm({
-    initialValues: {
-      password: '',
-      confirmPassword: '',
-    },
-    validate: {
-      password:(value) => getStrength(value) !== 100 ? 'Passwords did not meet requirements' : null,
-      confirmPassword: matchesField('password', 'Passwords are not the same'),
-    },
-  });
-  const form3 = useForm({
-    initialValues: {
-      privatekey1: '',
-      password: '',
-      confirmPassword: '',
-    },
-    validate: {
-      password:(value) => getStrength(value) !== 100 ? 'Passwords did not meet requirements' : null,
-      confirmPassword: matchesField('password', 'Passwords are not the same'),
-    },
-  });
-  const form2 = useForm({
-    initialValues: {
-      password: '',
-    },
-  });
+
   
   const { classes } = useStyles();
   const { auth, state } = useAuth();
-  const [opened, { open, close }] = useDisclosure(false);
-  const [opened2, handlers] = useDisclosure(false);
-  const [opened3, handlers3] = useDisclosure(false);
   const [loadersed, handlersloader] = useDisclosure(false);
   const [openedburger, { toggle }] = useDisclosure(false);
   const [pvkeyst, setPvkeyst] = useState<string>('')
