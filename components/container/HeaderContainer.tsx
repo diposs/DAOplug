@@ -412,7 +412,7 @@ export function HeaderContainer () {
     )
     }
     <Burger opened={openedburger} onClick={toggle} className={classes.nonMobile} />
-    /**<Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
+    {/**<Modal opened={opened} onClose={close} size="auto" centered withCloseButton={false} closeOnClickOutside={false}>
       <Box component="form" miw={{ base: "100%", xs: 343, sm: 343, md: 343, lg: 343, xl: 343 }} mx="auto" onSubmit={form.onSubmit(handleSubmit)}>
         <PasswordInput placeholder="Your password" label="Password" required {...form.getInputProps('password')} />
         <Group spacing={5} grow mt="xs" mb="md">
@@ -451,7 +451,7 @@ export function HeaderContainer () {
           <Button type="submit">Submit</Button>
         </Group>
       </Box>
-    </Modal>**/
+    </Modal>**/}
     <Drawer opened={openedburger} onClose={toggle} classNames={{root: classes.nonMobile, content: classes.controldd,}} position="bottom" size='60dvh' title="  " withCloseButton={false}>
       {Array(12).fill(0).map((_, index) => {return <p key={index}>Drawer with scroll</p>;})}
       {isLoggedIn && (pKey != null) && (state!.publicKey == inUser)  ? (<GsLogoutButton onClick={signoutUser} className={classes.nonMobile} />) : (<GsButton onClick={signInUser}className={classes.nonMobile} />)}
