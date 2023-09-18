@@ -13,7 +13,6 @@ import { GsButton, GsLogoutButton } from '../buttons/GSButton';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
 import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCbc256 } from '@polybase/util';
 import { useBoundStore3} from '../../stores/datastate';
-import { newDelegatedEthAddress } from '@glif/filecoin-address';
 import { hashEthereumSignedMessage  } from '@polybase/eth'
 import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
@@ -177,10 +176,8 @@ export function HeaderContainer () {
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
     var walled1 = privateKeyToAccount(toHex(privateKey));
-    const filAddress = newDelegatedEthAddress(walled1.address || '');
     let addman = []
     addman.push(walled1.address);
-    addman.push(filAddress.toString());
     var dud2 = encodeToString(dud,'hex')
     const keys = decodeFromString(publicq, 'hex');
     const key =  keys.subarray(0,16);
@@ -236,10 +233,8 @@ export function HeaderContainer () {
       form3.reset();
       let publicq: any = state!.publicKey || '';
       var walled1 = privateKeyToAccount(values.privatekey1 as `0x${string}`);
-      const filAddress = newDelegatedEthAddress(walled1.address || '');
       let addman = []
       addman.push(walled1.address);
-      addman.push(filAddress.toString());
       const recordkey = '0x' + walled1.publicKey.slice(4);
       if(recordkey != publicq) throw 'error';
       const privateKey = decodeFromString(values.privatekey1, 'hex');
