@@ -22,6 +22,7 @@
     "@polybase/eth": "^0.6.6",
     "cookies-next": "^2.1.1",
     "@polybase/react": "^0.6.6",
+    "viem": "^1.10.14",
     "@glif/filecoin-address": "^2.0.43",
     "@lighthouse-web3/sdk": "^0.2.7",
     "nft.storage": "^7.1.1",
