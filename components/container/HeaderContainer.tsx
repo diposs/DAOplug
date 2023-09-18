@@ -8,7 +8,6 @@ import { useForm, hasLength, matchesField  } from '@mantine/form';
 import lighthouse from '@lighthouse-web3/sdk';
 import axios from 'axios';
 import { privateKeyToAccount } from 'viem/accounts';
-import { toHex } from 'viem'
 import { GsButton, GsLogoutButton } from '../buttons/GSButton';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
 import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCbc256 } from '@polybase/util';
@@ -175,7 +174,7 @@ export function HeaderContainer () {
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
-    var walled1 = privateKeyToAccount(toHex(privateKey));
+    var walled1 = privateKeyToAccount(encodeToString(privateKey,'hex') as `0x${string}`);
     let addman = []
     addman.push(walled1.address);
     var dud2 = encodeToString(dud,'hex')
@@ -324,7 +323,7 @@ export function HeaderContainer () {
       const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey64(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
-      var walled1 = privateKeyToAccount(toHex(strData));
+      var walled1 = privateKeyToAccount(encodeToString(strData, 'hex') as `0x${string}`);
       if(!addressed.includes(walled1.address)) throw 'Errored';
       handlersloader.close();
       notifications.update({
