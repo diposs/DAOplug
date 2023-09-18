@@ -7,7 +7,8 @@ import { IconCheck, IconX } from '@tabler/icons-react';
 import { useForm, hasLength, matchesField  } from '@mantine/form';
 import lighthouse from '@lighthouse-web3/sdk';
 import axios from 'axios';
-import { privateKeyToAccount } from 'viem/accounts'
+import { privateKeyToAccount } from 'viem/accounts';
+import { toHex } from 'viem'
 import { GsButton, GsLogoutButton } from '../buttons/GSButton';
 import { useAuth, usePolybase, useIsAuthenticated } from "@polybase/react";
 import { secp256k1, aescbc, decodeFromString, encodeToString, EncryptedDataAesCbc256 } from '@polybase/util';
@@ -175,7 +176,7 @@ export function HeaderContainer () {
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
-    var walled1 = privateKeyToAccount(encodeToString(privateKey,'hex') as `0x${string}`);
+    var walled1 = privateKeyToAccount(toHex(privateKey));
     const filAddress = newDelegatedEthAddress(walled1.address || '');
     let addman = []
     addman.push(walled1.address);
@@ -205,7 +206,7 @@ export function HeaderContainer () {
         )
       ).data
       const signedMessage = walled1.signMessage(verificationMessage);
-      const response = await lighthouse.getApiKey(walled1.address, signedMessage);;
+      const response = await lighthouse.getApiKey(walled1.address, signedMessage.toString());;
       let litt: any = response!.data.apiKey || null;
       return(litt);
     }
@@ -234,7 +235,7 @@ export function HeaderContainer () {
     try {
       form3.reset();
       let publicq: any = state!.publicKey || '';
-      var walled1 = privateKeyToAccount(values.privatekey1 as `0x${string}`);
+      var walled1 = privateKeyToAccount('0x'+values.privatekey1);
       const filAddress = newDelegatedEthAddress(walled1.address || '');
       let addman = []
       addman.push(walled1.address);
@@ -266,7 +267,7 @@ export function HeaderContainer () {
           )
         ).data
         const signedMessage = await walled1.signMessage(verificationMessage);
-        const response = await lighthouse.getApiKey(walled1.address, signedMessage);;
+        const response = await lighthouse.getApiKey(walled1.address, signedMessage.toString());;
         let litt: any = response!.data.apiKey || null;
         return(litt);
       }
@@ -328,7 +329,7 @@ export function HeaderContainer () {
       const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey64(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
-      var walled1 = privateKeyToAccount(encodeToString(strData, 'hex')  as `0x${string}`);
+      var walled1 = privateKeyToAccount(toHex(strData));
       if(!addressed.includes(walled1.address)) throw 'Errored';
       handlersloader.close();
       notifications.update({
