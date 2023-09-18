@@ -175,7 +175,7 @@ export function HeaderContainer () {
     let publicq: any = state!.publicKey || '';
     const privateKey = await secp256k1.generatePrivateKey();
     var dud = await secp256k1.getPublicKey64(privateKey);
-    var walled1 = privateKeyToAccount(encodeToString(privateKey,'hex'));
+    var walled1 = privateKeyToAccount(encodeToString(privateKey,'hex') as `0x${string}`);
     const filAddress = newDelegatedEthAddress(walled1.address || '');
     let addman = []
     addman.push(walled1.address);
@@ -234,7 +234,7 @@ export function HeaderContainer () {
     try {
       form3.reset();
       let publicq: any = state!.publicKey || '';
-      var walled1 = privateKeyToAccount(values.privatekey1);
+      var walled1 = privateKeyToAccount(values.privatekey1 as `0x${string}`);
       const filAddress = newDelegatedEthAddress(walled1.address || '');
       let addman = []
       addman.push(walled1.address);
@@ -328,7 +328,7 @@ export function HeaderContainer () {
       const strData = await aescbc.symmetricDecrypt(newhashkunkey, decryptedDataJson);
       const publicKey2 = await secp256k1.getPublicKey64(strData);
       const precordalpha = encodeToString(publicKey2, 'hex');
-      var walled1 = privateKeyToAccount(encodeToString(strData, 'hex'));
+      var walled1 = privateKeyToAccount(encodeToString(strData, 'hex')  as `0x${string}`);
       if(!addressed.includes(walled1.address)) throw 'Errored';
       handlersloader.close();
       notifications.update({
